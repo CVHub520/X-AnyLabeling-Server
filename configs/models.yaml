@@ -1,0 +1,10 @@
+enabled_models:
+  - yolo11n
+  - yolo11n_seg
+  - yolo11n_pose
+  - yolo11n_obb
+  - yolo11n_track
+  # - yolo11s
+  - qwen3vl_caption_transformers
+  - qwen3vl_grounding_transformers
+  # - qwen3vl_caption_api

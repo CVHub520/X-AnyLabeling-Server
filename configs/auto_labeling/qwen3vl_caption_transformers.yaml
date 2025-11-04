@@ -1,0 +1,16 @@
+model_id: qwen3vl_caption_transformers
+display_name: "Qwen3-VL Caption (detailed)"
+
+params:
+  backend: "transformers"
+  task: "caption"
+  model_path: "Qwen/Qwen3-VL-2B-Instruct"
+  device: "auto"
+  max_new_tokens: 512
+  repetition_penalty: 1.1
+
+widgets:
+  - name: button_run
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: true

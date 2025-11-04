@@ -1,0 +1,26 @@
+model_id: yolo11n_seg
+display_name: "YOLO11n Segmentation"
+
+params:
+  model_path: "yolo11n-seg.pt"
+  device: "cuda:0"
+  show_boxes: false
+  epsilon_factor: 0.001
+
+widgets:
+  - name: button_run
+    value: null
+  - name: input_conf
+    value: null
+  - name: edit_conf
+    value: 0.25
+  - name: input_iou
+    value: null
+  - name: edit_iou
+    value: 0.70
+  - name: mask_fineness_slider
+    value: 10
+  - name: mask_fineness_value_label
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false

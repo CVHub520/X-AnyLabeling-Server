@@ -1,0 +1,30 @@
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+
+logging:
+  level: "INFO"
+  console_level: "INFO"
+  file_enabled: true
+  file_path: null
+  rotation: "500 MB"
+  retention: "30 days"
+  format: "text"
+
+security:
+  api_key_enabled: false
+  api_key: ""
+  api_key_header: "Token"
+  cors_origins:
+    - "*"
+
+performance:
+  request_timeout: 300
+  max_image_size: 0
+  rate_limit_enabled: false
+  rate_limit: "100/minute"
+
+concurrency:
+  max_workers: 4
+  max_queue_size: 50

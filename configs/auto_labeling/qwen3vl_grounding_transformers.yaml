@@ -1,0 +1,18 @@
+model_id: qwen3vl_grounding_transformers
+display_name: "Qwen3-VL Grounding (Transformers)"
+
+params:
+  backend: "transformers"
+  task: "grounding"
+  model_path: "Qwen/Qwen3-VL-2B-Instruct"
+  device: "auto"
+  max_new_tokens: 2048
+  repetition_penalty: 1.2
+
+widgets:
+  - name: button_send
+    value: null
+  - name: edit_text
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false

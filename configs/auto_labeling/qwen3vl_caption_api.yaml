@@ -1,0 +1,18 @@
+model_id: qwen3vl_caption_api
+display_name: "Qwen3-VL Caption (vLLM)"
+
+params:
+  backend: "openai"
+  task: "caption"
+  api_base: "http://localhost:8080/v1"
+  api_key: "EMPTY"
+  model_name: "Qwen/Qwen3-VL-2B-Instruct"
+  max_new_tokens: 512
+  temperature: 0.7
+  timeout: 60
+
+widgets:
+  - name: button_run
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false

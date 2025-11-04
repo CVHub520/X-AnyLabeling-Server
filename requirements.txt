@@ -1,0 +1,18 @@
+# common
+fastapi[standard] >= 0.115.0
+pydantic >= 2.12.0
+openai >= 1.99.1
+loguru
+numpy
+requests >= 2.26.0
+opencv-python-headless >= 4.11.0
+pillow
+# dev
+black
+flake8
+# Ultralytics
+ultralytics
+lapx
+# Transformers
+transformers
+accelerate

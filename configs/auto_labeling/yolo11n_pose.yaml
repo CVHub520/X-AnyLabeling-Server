@@ -1,0 +1,22 @@
+model_id: yolo11n_pose
+display_name: "YOLO11n Pose"
+
+params:
+  model_path: "yolo11n-pose.pt"
+  device: "cuda:0"
+  show_boxes: true
+  kpt_threshold: 0.5
+
+widgets:
+  - name: button_run
+    value: null
+  - name: input_conf
+    value: null
+  - name: edit_conf
+    value: 0.25
+  - name: input_iou
+    value: null
+  - name: edit_iou
+    value: 0.70
+  - name: toggle_preserve_existing_annotations
+    value: false

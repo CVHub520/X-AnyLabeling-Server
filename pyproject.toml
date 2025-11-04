@@ -1,0 +1,162 @@
+[build-system]
+requires = ["setuptools>=70.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# Project settings -----------------------------------------------------------------------------------------------------
+[project]
+name = "x-anylabeling-server"
+dynamic = ["version"]
+description = "AI Model Inference Service for X-AnyLabeling"
+keywords = ["computer-vision", "deep-learning", "machine-learning", "annotation", "labeling", "image-annotation", "annotation-tool", "image-labeling", "transformers", "yolo", "image-classification", "object-detection", "instance-segmentation", "rotated-object-detection", "pose-estimation", "vision-language", "segment-anything", "x-anylabeling", "x-anylabeling-server"]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "AGPLv3" }
+authors = [
+    { name = "Wei Wang", email = "cv_hub@163.com" },
+]
+maintainers = [
+    { name = "CVHub", email = "cvhub.cn@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+
+# Core dependencies
+dependencies = [
+    "fastapi[standard]>=0.115.0",
+    "pydantic>=2.12.0",
+    "openai>=1.99.1",
+    "requests>=2.26.0",
+    "opencv-python-headless>=4.11.0",
+    "loguru",
+    "numpy",
+    "pillow",
+]
+
+[project.optional-dependencies]
+# Development dependencies
+dev = [
+    "black",
+    "flake8",
+]
+
+ultralytics = [
+    "ultralytics",
+    "lapx",
+]
+
+transformers = [
+    "transformers",
+    "accelerate",
+]
+
+# All optional dependencies
+all = [
+    "x-anylabeling-server[dev,ultralytics,transformers]",
+]
+
+[project.urls]
+Homepage = "https://github.com/CVHub520/X-AnyLabeling-Server"
+Repository = "https://github.com/CVHub520/X-AnyLabeling-Server"
+Documentation = "https://github.com/CVHub520/X-AnyLabeling-Server/blob/main/README.md"
+Issues = "https://github.com/CVHub520/X-AnyLabeling-Server/issues"
+
+[project.scripts]
+x-anylabeling-server = "app.cli:main"
+
+# Setuptools configuration ---------------------------------------------------------------------------------------------
+[tool.setuptools.dynamic]
+version = {attr = "app.__version__"}
+
+# Black configuration --------------------------------------------------------------------------------------------------
+[tool.black]
+line-length = 79
+skip-string-normalization = true
+target-version = ['py310']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# Ruff configuration ---------------------------------------------------------------------------------------------------
+[tool.ruff]
+# Enable the pycodestyle (`E`) and Pyflakes (`F`) rules by default.
+select = [
+    # Pyflakes
+    "F",
+    # Pycodestyle
+    "E",
+    # isort
+    "I001"
+]
+ignore = [
+    "E501",  # Line too long (handled by black)
+    "E402",  # Module level import not at top of file
+]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+line-length = 79
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Target Python 3.10+
+target-version = "py310"
+
+[tool.ruff.per-file-ignores]
+# Ignore unused imports in __init__.py files as they're actually being used.
+"__init__.py" = ["F401"]
+
+# Pytest configuration -------------------------------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+]
