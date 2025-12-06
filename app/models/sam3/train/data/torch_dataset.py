@@ -2,7 +2,12 @@
 
 from typing import Callable, Iterable, Optional
 
-from torch.utils.data import DataLoader, Dataset, DistributedSampler, IterableDataset
+from torch.utils.data import (
+    DataLoader,
+    Dataset,
+    DistributedSampler,
+    IterableDataset,
+)
 
 
 class TorchDataset:
@@ -26,9 +31,13 @@ class TorchDataset:
         self.drop_last = drop_last
         self.collate_fn = collate_fn
         self.worker_init_fn = worker_init_fn
-        assert not isinstance(self.dataset, IterableDataset), "Not supported yet"
+        assert not isinstance(
+            self.dataset, IterableDataset
+        ), "Not supported yet"
         if enable_distributed_sampler:
-            self.sampler = DistributedSampler(self.dataset, shuffle=self.shuffle)
+            self.sampler = DistributedSampler(
+                self.dataset, shuffle=self.shuffle
+            )
         else:
             self.sampler = None
 

@@ -1,12 +1,20 @@
 import numpy as np
 from typing import Any, Dict
 
-from .base import BaseModel
+from . import BaseModel
 from app.schemas.shape import Shape
+from app.core.registry import register_model
 
 
-class YOLO11nPose(BaseModel):
-    """YOLO11n pose estimation model."""
+@register_model(
+    "yolo11n_pose",
+    "yolo11s_pose",
+    "yolo11m_pose",
+    "yolo11l_pose",
+    "yolo11x_pose",
+)
+class YOLO11Pose(BaseModel):
+    """YOLO11 pose estimation model."""
 
     def load(self):
         """Load YOLO pose estimation model."""

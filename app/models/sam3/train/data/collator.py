@@ -1,6 +1,11 @@
 # Copyright (c) Meta Platforms, Inc. and affiliates. All Rights Reserved
 
-from dataclasses import dataclass, field as field_ptr_behaviour, fields, is_dataclass
+from dataclasses import (
+    dataclass,
+    field as field_ptr_behaviour,
+    fields,
+    is_dataclass,
+)
 from typing import Any, get_args, get_origin, List, Union
 
 import torch
@@ -29,7 +34,9 @@ def convert_my_tensors(obj):
 
         field_type = field.type
         if is_optional_field(field.type):
-            field_type = Union[get_args(field.type)[:-1]]  # Get the Optional field type
+            field_type = Union[
+                get_args(field.type)[:-1]
+            ]  # Get the Optional field type
 
         if field_type != MyTensor or getattr(obj, field.name) is None:
             continue
@@ -55,7 +62,8 @@ def convert_my_tensors(obj):
                 obj,
                 field.name,
                 torch.as_tensor(
-                    getattr(obj, field.name), dtype=getattr(obj, field.name + "__type")
+                    getattr(obj, field.name),
+                    dtype=getattr(obj, field.name + "__type"),
                 ),
             )
     return obj
@@ -99,7 +107,9 @@ def pad_tensor_list_to_longest(
         n_right_dims = (n_dims - 1) - (n_dims + dim) % n_dims
         n_pad = pad_len - tensors[i].shape[dim]
         pad_tuple = tuple([0] * 2 * n_right_dims + [0, n_pad])
-        tensors[i] = torch.nn.functional.pad(tensors[i], pad_tuple, value=pad_val)
+        tensors[i] = torch.nn.functional.pad(
+            tensors[i], pad_tuple, value=pad_val
+        )
     return tensors
 
 
@@ -147,7 +157,12 @@ def collate_fn_api(
     raw_images = None
 
     num_stages = (
-        max(q.query_processing_order for data in batch for q in data.find_queries) + 1
+        max(
+            q.query_processing_order
+            for data in batch
+            for q in data.find_queries
+        )
+        + 1
     )
 
     stages = [
@@ -205,7 +220,9 @@ def collate_fn_api(
         datapoint_query_id_2_stage_query_id = []
         for q in data.find_queries:
             stage_id = q.query_processing_order
-            datapoint_query_id_2_stage_query_id.append(offset_query_id[stage_id])
+            datapoint_query_id_2_stage_query_id.append(
+                offset_query_id[stage_id]
+            )
             offset_query_id[stage_id] += 1
 
         for j, q in enumerate(data.find_queries):
@@ -228,7 +245,9 @@ def collate_fn_api(
                 assert q.input_bbox_label is not None
                 nb_boxes = q.input_bbox.numel() // 4
                 assert len(q.input_bbox_label) == nb_boxes
-                stages[stage_id].input_boxes.append(q.input_bbox.view(nb_boxes, 4))
+                stages[stage_id].input_boxes.append(
+                    q.input_bbox.view(nb_boxes, 4)
+                )
                 stages[stage_id].input_boxes_label.append(
                     q.input_bbox_label.view(nb_boxes)
                 )
@@ -272,7 +291,9 @@ def collate_fn_api(
             find_targets[stage_id].object_ids.extend(current_out_object_ids)
             if repeats > 0:
                 for _ in range(repeats):
-                    find_targets[stage_id].repeated_boxes.extend(current_out_boxes)
+                    find_targets[stage_id].repeated_boxes.extend(
+                        current_out_boxes
+                    )
             find_targets[stage_id].num_boxes.append(len(current_out_boxes))
             find_targets[stage_id].is_exhaustive.append(q.is_exhaustive)
 
@@ -280,25 +301,32 @@ def collate_fn_api(
                 current_seg_mask = []
                 current_is_valid_segment = []
                 for object_id in q.object_ids_output:
-                    seg_mask = data.images[q.image_id].objects[object_id].segment
+                    seg_mask = (
+                        data.images[q.image_id].objects[object_id].segment
+                    )
                     if seg_mask is not None:
                         current_seg_mask.append(seg_mask)
                         current_is_valid_segment.append(1)
                     else:
                         dummy_mask = torch.zeros(
-                            data.images[q.image_id].data.shape[-2:], dtype=torch.bool
+                            data.images[q.image_id].data.shape[-2:],
+                            dtype=torch.bool,
                         )
                         current_seg_mask.append(dummy_mask)
                         current_is_valid_segment.append(0)
                 find_targets[stage_id].segments.extend(current_seg_mask)
-                find_targets[stage_id].is_valid_segment.extend(current_is_valid_segment)
+                find_targets[stage_id].is_valid_segment.extend(
+                    current_is_valid_segment
+                )
             else:
                 # We are not loading segmentation masks
                 find_targets[stage_id].segments = None
                 find_targets[stage_id].is_valid_segment = None
 
             if q.semantic_target is not None:
-                find_targets[stage_id].semantic_segments.append(q.semantic_target)
+                find_targets[stage_id].semantic_segments.append(
+                    q.semantic_target
+                )
 
         offset_img_id += len(data.images)
 
@@ -335,13 +363,17 @@ def collate_fn_api(
             find_targets[i].boxes.view(-1, 4), find_targets[i].num_boxes
         )
         find_targets[i].object_ids_padded = packed_to_padded_naive(
-            find_targets[i].object_ids, find_targets[i].num_boxes, fill_value=-1
+            find_targets[i].object_ids,
+            find_targets[i].num_boxes,
+            fill_value=-1,
         )
 
     # Finalize the image batch
     # check sizes
     for img in img_batch[1:]:
-        assert img.shape == img_batch[0].shape, "All images must have the same size"
+        assert (
+            img.shape == img_batch[0].shape
+        ), "All images must have the same size"
     image_batch = torch.stack(img_batch)
     if load_image_in_fp16:
         # Optionally, cast the image tensors to fp16, which helps save GPU memory on

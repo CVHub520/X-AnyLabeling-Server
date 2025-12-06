@@ -5,10 +5,12 @@ from typing import Any, Dict, List
 import numpy as np
 import torch
 
-from .base import BaseModel
+from . import BaseModel
 from app.schemas.shape import Shape
+from app.core.registry import register_model
 
 
+@register_model("segment_anything_3")
 class SegmentAnything3(BaseModel):
     """Segment Anything Model 3 for image segmentation with text or visual prompts."""
 

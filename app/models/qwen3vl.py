@@ -4,10 +4,16 @@ from loguru import logger
 from typing import Any, Dict
 from PIL import Image
 
-from .base import BaseModel
+from . import BaseModel
 from app.schemas.shape import Shape
+from app.core.registry import register_model
 
 
+@register_model(
+    "qwen3vl_caption_api",
+    "qwen3vl_caption_transformers",
+    "qwen3vl_grounding_transformers",
+)
 class Qwen3VL(BaseModel):
     """Unified Qwen3-VL model supporting multiple tasks and backends."""
 

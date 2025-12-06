@@ -2,12 +2,16 @@ import math
 import numpy as np
 from typing import Any, Dict
 
-from .base import BaseModel
+from . import BaseModel
 from app.schemas.shape import Shape
+from app.core.registry import register_model
 
 
-class YOLO11nOBB(BaseModel):
-    """YOLO11n oriented bounding box detection model."""
+@register_model(
+    "yolo11n_obb", "yolo11s_obb", "yolo11m_obb", "yolo11l_obb", "yolo11x_obb"
+)
+class YOLO11OBB(BaseModel):
+    """YOLO11 oriented bounding box detection model."""
 
     @staticmethod
     def xywhr2xyxyxyxy(box: np.ndarray) -> np.ndarray:

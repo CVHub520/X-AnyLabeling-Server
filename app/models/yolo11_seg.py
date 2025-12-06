@@ -2,12 +2,16 @@ import cv2
 import numpy as np
 from typing import Any, Dict
 
-from .base import BaseModel
+from . import BaseModel
 from app.schemas.shape import Shape
+from app.core.registry import register_model
 
 
-class YOLO11nSegmentation(BaseModel):
-    """YOLO11n instance segmentation model."""
+@register_model(
+    "yolo11n_seg", "yolo11s_seg", "yolo11m_seg", "yolo11l_seg", "yolo11x_seg"
+)
+class YOLO11Segmentation(BaseModel):
+    """YOLO11 instance segmentation model."""
 
     @staticmethod
     def mask_to_polygon(

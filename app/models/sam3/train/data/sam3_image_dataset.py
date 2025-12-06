@@ -106,7 +106,9 @@ class Object:
     # Index of the frame in the media (0 if single image)
     frame_index: Optional[int] = -1
 
-    segment: Optional[Union[torch.Tensor, dict]] = None  # RLE dict or binary mask
+    segment: Optional[Union[torch.Tensor, dict]] = (
+        None  # RLE dict or binary mask
+    )
 
     is_crowd: bool = False
 
@@ -166,7 +168,9 @@ class CustomCocoDetectionAPI(VisionDataset):
         self.use_caching = use_caching
         self.zstd_dict_path = zstd_dict_path
 
-        self.curr_epoch = 0  # Used in case data loader behavior changes across epochs
+        self.curr_epoch = (
+            0  # Used in case data loader behavior changes across epochs
+        )
         self.load_segmentation = load_segmentation
         self.fix_fname = fix_fname
         self.filter_query = filter_query
@@ -188,10 +192,14 @@ class CustomCocoDetectionAPI(VisionDataset):
             if img_ids_to_load is not None and img_id not in img_ids_to_load:
                 continue
             if self.fix_fname:
-                current_meta["file_name"] = current_meta["file_name"].split("/")[-1]
+                current_meta["file_name"] = current_meta["file_name"].split(
+                    "/"
+                )[-1]
             path = current_meta["file_name"]
             if self.blurring_masks_path is not None:
-                mask_fname = os.path.basename(path).replace(".jpg", "-mask.json")
+                mask_fname = os.path.basename(path).replace(
+                    ".jpg", "-mask.json"
+                )
                 mask_path = os.path.join(self.blurring_masks_path, mask_fname)
                 if os.path.exists(mask_path):
                     with open(mask_path, "r") as fopen:
@@ -215,7 +223,9 @@ class CustomCocoDetectionAPI(VisionDataset):
                     )
                 else:
                     with g_pathmgr.open(path, "rb") as fopen:
-                        all_images.append((img_id, PILImage.open(fopen).convert("RGB")))
+                        all_images.append(
+                            (img_id, PILImage.open(fopen).convert("RGB"))
+                        )
             except FileNotFoundError as e:
                 print(f"File not found: {path} from dataset: {self.annFile}")
                 raise e
@@ -256,8 +266,12 @@ class CustomCocoDetectionAPI(VisionDataset):
         """A separate method for easy overriding in subclasses."""
         id = self.ids[index].item()
         pil_images, img_metadata = self._load_images(id)
-        queries, annotations = self.coco.loadQueriesAndAnnotationsFromDatapoint(id)
-        return self.load_queries(pil_images, annotations, queries, img_metadata)
+        queries, annotations = (
+            self.coco.loadQueriesAndAnnotationsFromDatapoint(id)
+        )
+        return self.load_queries(
+            pil_images, annotations, queries, img_metadata
+        )
 
     def load_queries(self, pil_images, annotations, queries, img_metadata):
         """Transform the raw image and queries into a Datapoint sample."""
@@ -285,7 +299,9 @@ class CustomCocoDetectionAPI(VisionDataset):
 
         for annotation in annotations:
             image_id = id2index_img[annotation["image_id"]]
-            bbox = box_xywh_to_xyxy(torch.as_tensor(annotation["bbox"])).view(1, 4)
+            bbox = box_xywh_to_xyxy(torch.as_tensor(annotation["bbox"])).view(
+                1, 4
+            )
             h, w = id2imsize[annotation["image_id"]]
             bbox[:, 0::2].mul_(w).clamp_(min=0, max=w)
             bbox[:, 1::2].mul_(h).clamp_(min=0, max=h)
@@ -298,16 +314,24 @@ class CustomCocoDetectionAPI(VisionDataset):
                     bbox=bbox[0],
                     area=annotation["area"],
                     object_id=(
-                        annotation["object_id"] if "object_id" in annotation else -1
+                        annotation["object_id"]
+                        if "object_id" in annotation
+                        else -1
                     ),
                     frame_index=(
-                        annotation["frame_index"] if "frame_index" in annotation else -1
+                        annotation["frame_index"]
+                        if "frame_index" in annotation
+                        else -1
                     ),
                     segment=segment,
                     is_crowd=(
-                        annotation["is_crowd"] if "is_crowd" in annotation else None
+                        annotation["is_crowd"]
+                        if "is_crowd" in annotation
+                        else None
                     ),
-                    source=annotation["source"] if "source" in annotation else "",
+                    source=(
+                        annotation["source"] if "source" in annotation else ""
+                    ),
                 )
             )
             id2index_obj[annotation["id"]] = len(images[image_id].objects) - 1
@@ -335,10 +359,15 @@ class CustomCocoDetectionAPI(VisionDataset):
                 and query["input_box"] is not None
                 and len(query["input_box"]) > 0
             ):
-                bbox = box_xywh_to_xyxy(torch.as_tensor(query["input_box"])).view(-1, 4)
+                bbox = box_xywh_to_xyxy(
+                    torch.as_tensor(query["input_box"])
+                ).view(-1, 4)
                 bbox[:, 0::2].mul_(w).clamp_(min=0, max=w)
                 bbox[:, 1::2].mul_(h).clamp_(min=0, max=h)
-                if "input_box_label" in query and query["input_box_label"] is not None:
+                if (
+                    "input_box_label" in query
+                    and query["input_box_label"] is not None
+                ):
                     bbox_label = torch.as_tensor(
                         query["input_box_label"], dtype=torch.long
                     ).view(-1)
@@ -359,13 +388,17 @@ class CustomCocoDetectionAPI(VisionDataset):
 
             try:
                 original_image_id = int(
-                    img_metadata[id2index_img[query["image_id"]]]["original_img_id"]
+                    img_metadata[id2index_img[query["image_id"]]][
+                        "original_img_id"
+                    ]
                 )
             except ValueError:
                 original_image_id = -1
 
             try:
-                img_metadata_query = img_metadata[id2index_img[query["image_id"]]]
+                img_metadata_query = img_metadata[
+                    id2index_img[query["image_id"]]
+                ]
                 coco_image_id = (
                     int(img_metadata_query["coco_img_id"])
                     if "coco_img_id" in img_metadata_query
@@ -395,27 +428,34 @@ class CustomCocoDetectionAPI(VisionDataset):
                     # id=query["id"],
                     # query_type=qtype,
                     query_text=(
-                        query["query_text"] if query["query_text"] is not None else ""
+                        query["query_text"]
+                        if query["query_text"] is not None
+                        else ""
                     ),
                     image_id=id2index_img[query["image_id"]],
                     input_bbox=bbox,
                     input_bbox_label=bbox_label,
                     input_points=points,
                     object_ids_output=[
-                        id2index_obj[obj_id] for obj_id in query["object_ids_output"]
+                        id2index_obj[obj_id]
+                        for obj_id in query["object_ids_output"]
                     ],
                     is_exhaustive=query["is_exhaustive"],
                     is_pixel_exhaustive=(
                         query["is_pixel_exhaustive"]
                         if "is_pixel_exhaustive" in query
                         else (
-                            query["is_exhaustive"] if query["is_exhaustive"] else None
+                            query["is_exhaustive"]
+                            if query["is_exhaustive"]
+                            else None
                         )
                     ),
                     query_processing_order=query["query_processing_order"],
                     inference_metadata=InferenceMetadata(
                         coco_image_id=-1 if self.training else coco_image_id,
-                        original_image_id=(-1 if self.training else original_image_id),
+                        original_image_id=(
+                            -1 if self.training else original_image_id
+                        ),
                         frame_index=frame_index,
                         original_category_id=original_category_id,
                         original_size=(h, w),
@@ -501,7 +541,9 @@ class Sam3ImageDataset(CustomCocoDetectionAPI):
                         )
 
                 max_queries = (
-                    self.max_train_queries if self.training else self.max_val_queries
+                    self.max_train_queries
+                    if self.training
+                    else self.max_val_queries
                 )
 
                 if len(datapoint.find_queries) > max_queries:
@@ -516,7 +558,9 @@ class Sam3ImageDataset(CustomCocoDetectionAPI):
 
                 break
             except (DecompressionBombError, OSError, ValueError) as error:
-                sys.stderr.write(f"ERROR: got loading error on datapoint {idx}\n")
+                sys.stderr.write(
+                    f"ERROR: got loading error on datapoint {idx}\n"
+                )
                 sys.stderr.write(f"Exception: {error}\n")
                 sys.stderr.write(traceback.format_exc())
                 idx = (idx + 1) % len(self)

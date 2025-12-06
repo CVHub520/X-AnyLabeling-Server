@@ -1,10 +1,38 @@
+import importlib
+import pkgutil
 import time
 import yaml
 from loguru import logger
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Type
 
-from app.models.base import BaseModel
+from app.models import BaseModel
+
+
+_MODEL_REGISTRY: Dict[str, Type[BaseModel]] = {}
+
+
+def register_model(*model_ids: str):
+    """Register a model class with one or more model IDs.
+
+    Args:
+        *model_ids: One or more model identifier strings.
+
+    Returns:
+        Decorator function that registers the class.
+    """
+
+    def decorator(cls: Type[BaseModel]) -> Type[BaseModel]:
+        for model_id in model_ids:
+            if model_id in _MODEL_REGISTRY:
+                logger.warning(
+                    f"Model '{model_id}' is already registered. "
+                    f"Overwriting with {cls.__name__}"
+                )
+            _MODEL_REGISTRY[model_id] = cls
+        return cls
+
+    return decorator
 
 
 class ModelRegistry:
@@ -27,30 +55,26 @@ class ModelRegistry:
             Multiple model_ids can share the same implementation class.
             The model_path in config file determines which weights to load.
             Example: yolo11s, yolo11m, yolo11l can all use YOLO11nDetection.
+            Automatically discovers and imports all model modules in the first level only.
 
         Returns:
             Dictionary mapping model_id to model class.
         """
-        from app.models.yolo11n import YOLO11nDetection
-        from app.models.yolo11n_seg import YOLO11nSegmentation
-        from app.models.yolo11n_pose import YOLO11nPose
-        from app.models.yolo11n_obb import YOLO11nOBB
-        from app.models.yolo11n_track import YOLO11nDetectionTrack
-        from app.models.qwen3vl import Qwen3VL
-        from app.models.segment_anything_3 import SegmentAnything3
+        import app.models
 
-        return {
-            "yolo11n": YOLO11nDetection,
-            "yolo11s": YOLO11nDetection,
-            "yolo11n_seg": YOLO11nSegmentation,
-            "yolo11n_pose": YOLO11nPose,
-            "yolo11n_obb": YOLO11nOBB,
-            "yolo11n_track": YOLO11nDetectionTrack,
-            "qwen3vl_caption_transformers": Qwen3VL,
-            "qwen3vl_grounding_transformers": Qwen3VL,
-            "qwen3vl_grounding_api": Qwen3VL,
-            "segment_anything_3": SegmentAnything3,
-        }
+        for importer, modname, ispkg in pkgutil.iter_modules(
+            app.models.__path__, app.models.__name__ + "."
+        ):
+            if not ispkg:
+                if not modname.startswith("app.models._"):
+                    try:
+                        importlib.import_module(modname)
+                    except Exception as e:
+                        logger.warning(
+                            f"Failed to import model module {modname}: {e}"
+                        )
+
+        return _MODEL_REGISTRY
 
     def _read_models_config(self) -> Dict:
         """Read models.yaml configuration.

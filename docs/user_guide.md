@@ -52,19 +52,29 @@ class YourModel(BaseModel):
 
 ### 1.2 Register Model
 
-Add your model to `app/core/registry.py`:
+Just only use the `@register_model` decorator to register your model class.
 
 ```python
-def _build_registry(self):
-    from app.models.your_model import YourModel
-    return {
-        "your_model_id": YourModel,
-        # ... other models
-    }
+from app.core.registry import register_model
+
+@register_model("your_model_id")
+class YourModel(BaseModel):
+    # ... your implementation
+```
+
+You can also register multiple model IDs with the same class:
+
+```python
+@register_model(
+    "yolo11n", "yolo11s", "yolo11m", "yolo11l", "yolo11x"
+)
+class YOLO11Detection(BaseModel):
+    # ... your implementation
 ```
 
 > [!TIP]
-> Multiple model IDs can share the same class (e.g., `yolo11n` and `yolo11s` both use `YOLO11nDetection`)
+> - The system automatically imports all modules in `app/models/` directory (first level only)
+> - Multiple model IDs can share the same class (e.g., `yolo11n` and `yolo11s` both use `YOLO11nDetection`)
 
 ### 1.3 Create Configuration
 

@@ -32,7 +32,9 @@ def convert_boxlist_to_normalized_tensor(box_list, image_width, image_height):
     return boxes
 
 
-def load_coco_and_group_by_image(json_path: str) -> Tuple[List[Dict], Dict[int, str]]:
+def load_coco_and_group_by_image(
+    json_path: str,
+) -> Tuple[List[Dict], Dict[int, str]]:
     """
     Load COCO JSON file and group annotations by image.
 
@@ -59,7 +61,10 @@ def load_coco_and_group_by_image(json_path: str) -> Tuple[List[Dict], Dict[int, 
     for image_id in sorted_image_ids:
         image_info = images[image_id]
         grouped.append(
-            {"image": image_info, "annotations": anns_by_image.get(image_id, [])}
+            {
+                "image": image_info,
+                "annotations": anns_by_image.get(image_id, []),
+            }
         )
 
     cat_id_to_name = {cat["id"]: cat["name"] for cat in coco["categories"]}
@@ -133,7 +138,9 @@ class COCO_FROM_JSON:
         )
         self.category_chunks = [
             self._sorted_cat_ids[i : i + self.category_chunk_size]
-            for i in range(0, len(self._sorted_cat_ids), self.category_chunk_size)
+            for i in range(
+                0, len(self._sorted_cat_ids), self.category_chunk_size
+            )
         ]
         if prompts is not None:
             prompts = eval(prompts)
