@@ -18,6 +18,8 @@
 
 ![](https://user-images.githubusercontent.com/18329471/234640541-a6a65fbc-d7a5-4ec3-9b65-55305b01a7aa.png)
 
+<img alt="X-AnyLabeling-Server Logo" src="assets/logo/X-AnyLabeling-Server.png" style="width:100%;display:block;" />
+
 ## About
 
 X-AnyLabeling-Server is a simple, lightweight and extensible serving framework for AI model inference, specifically designed for [X-AnyLabeling](https://github.com/CVHub520/X-AnyLabeling). It provides a production-ready solution with pluggable architecture and flexible configuration for various auto-labeling scenarios. Its core features include:
