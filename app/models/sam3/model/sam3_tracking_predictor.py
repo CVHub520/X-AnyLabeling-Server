@@ -61,6 +61,7 @@ class Sam3TrackerPredictor(Sam3TrackerBase):
 
         self.iter_use_prev_mask_pred = True
         self.add_all_frames_to_correct_as_cond = True
+        self.clear_non_cond_mem = True
 
     @torch.inference_mode()
     def init_state(
@@ -955,6 +956,7 @@ class Sam3TrackerPredictor(Sam3TrackerBase):
                 )
                 obj_scores = current_out["object_score_logits"]
                 output_dict[storage_key][frame_idx] = current_out
+                self._prune_non_cond_memory(frame_idx, inference_state)
             # Create slices of per-object outputs for subsequent interaction with each
             # individual object after tracking.
             self._add_output_per_object(
@@ -1461,6 +1463,23 @@ class Sam3TrackerPredictor(Sam3TrackerBase):
             non_cond_frame_outputs = obj_output_dict["non_cond_frame_outputs"]
             for t in range(frame_idx_begin, frame_idx_end + 1):
                 non_cond_frame_outputs.pop(t, None)
+
+    def _prune_non_cond_memory(self, frame_idx, inference_state=None):
+        """Prune old non-conditioning frames to bound memory usage."""
+        if not self.clear_non_cond_mem:
+            return
+        if inference_state is None:
+            return
+
+        min_frame = frame_idx - self.num_maskmem * self.memory_temporal_stride_for_eval
+        output_dict = inference_state["output_dict"]
+
+        for f in [k for k in output_dict["non_cond_frame_outputs"] if k < min_frame]:
+            output_dict["non_cond_frame_outputs"].pop(f, None)
+
+        for obj_output_dict in inference_state.get("output_dict_per_obj", {}).values():
+            for f in [k for k in obj_output_dict["non_cond_frame_outputs"] if k < min_frame]:
+                obj_output_dict["non_cond_frame_outputs"].pop(f, None)
 
     def _suppress_shrinked_masks(
         self, pred_masks, new_pred_masks, shrink_threshold=0.3
