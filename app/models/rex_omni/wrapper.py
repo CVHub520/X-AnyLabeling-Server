@@ -111,6 +111,9 @@ class RexOmniWrapper:
                         "gpu_memory_utilization",
                         "tensor_parallel_size",
                         "trust_remote_code",
+                        "device_map",
+                        "torch_dtype",
+                        "attn_implementation",
                     ]
                 },
             )
