@@ -28,7 +28,7 @@ class SegmentAnything3(BaseModel):
         bpe_path = self.params.get("bpe_path")
         model_path = self.params.get("model_path")
         device = self.params.get("device", "cuda:0")
-
+        image_size = self.params.get("image_size")
         if "cuda" in device and torch.cuda.is_available():
             self.device = "cuda"
         else:
@@ -45,6 +45,7 @@ class SegmentAnything3(BaseModel):
             bpe_path=bpe_path,
             device=self.device,
             checkpoint_path=model_path,
+            image_size = image_size
         )
 
         if self.device == "cuda" and torch.cuda.is_available():
@@ -108,13 +109,13 @@ class SegmentAnything3(BaseModel):
         show_masks = params.get(
             "show_masks", self.params.get("show_masks", False)
         )
-
+        image_size = self.params.get("image_size")
         logger.info(
             f"Processing text prompt: '{text_prompt}' with conf_threshold={conf_thresh}"
         )
 
         processor = Sam3Processor(
-            self.model, confidence_threshold=conf_thresh, device=self.device
+            self.model, resolution=image_size, confidence_threshold=conf_thresh, device=self.device
         )
 
         pil_image = Image.fromarray(image[:, :, ::-1])
@@ -239,9 +240,9 @@ class SegmentAnything3(BaseModel):
             logger.debug(
                 f"Box {i}: XYWH={box}, Label={label} (value={label_value})"
             )
-
+        image_size = self.params.get("image_size")
         processor = Sam3Processor(
-            self.model, confidence_threshold=conf_thresh, device=self.device
+            self.model, resolution=image_size, confidence_threshold=conf_thresh, device=self.device
         )
 
         pil_image = Image.fromarray(image[:, :, ::-1])

@@ -74,10 +74,10 @@ def _create_position_encoding(precompute_resolution=None):
     )
 
 
-def _create_vit_backbone(compile_mode=None):
+def _create_vit_backbone(compile_mode=None,image_size=1008):
     """Create ViT backbone for visual feature extraction."""
     return ViT(
-        img_size=1008,
+        img_size=image_size,
         pretrain_img_size=336,
         patch_size=14,
         embed_dim=1024,
@@ -373,7 +373,7 @@ def _create_tracker_maskmem_backbone():
     return maskmem_backbone
 
 
-def _create_tracker_transformer():
+def _create_tracker_transformer(image_size=1008):
     """Create the SAM3 Tracker transformer components."""
     # Self attention
     self_attention = RoPEAttention(
@@ -382,7 +382,7 @@ def _create_tracker_transformer():
         downsample_rate=1,
         dropout=0.1,
         rope_theta=10000.0,
-        feat_sizes=[72, 72],
+        feat_sizes=[image_size//14, image_size//14],
         use_fa3=False,
         use_rope_real=False,
     )
@@ -395,7 +395,7 @@ def _create_tracker_transformer():
         dropout=0.1,
         kv_in_dim=64,
         rope_theta=10000.0,
-        feat_sizes=[72, 72],
+        feat_sizes=[image_size//14, image_size//14],
         rope_k_repeat=True,
         use_fa3=False,
         use_rope_real=False,
@@ -440,6 +440,7 @@ def _create_tracker_transformer():
 
 def build_tracker(
     apply_temporal_disambiguation: bool,
+    image_size:int,
     with_backbone: bool = False,
     compile_mode=None,
 ) -> Sam3TrackerPredictor:
@@ -452,14 +453,14 @@ def build_tracker(
 
     # Create model components
     maskmem_backbone = _create_tracker_maskmem_backbone()
-    transformer = _create_tracker_transformer()
+    transformer = _create_tracker_transformer(image_size)
     backbone = None
     if with_backbone:
         vision_backbone = _create_vision_backbone(compile_mode=compile_mode)
         backbone = SAM3VLBackbone(scalp=1, visual=vision_backbone, text=None)
     # Create the Tracker module
     model = Sam3TrackerPredictor(
-        image_size=1008,
+        image_size=image_size,
         num_maskmem=7,
         backbone=backbone,
         backbone_stride=14,
@@ -508,13 +509,13 @@ def _create_text_encoder(bpe_path: str) -> VETextEncoder:
 
 
 def _create_vision_backbone(
-    compile_mode=None, enable_inst_interactivity=True
+    image_size=1008,compile_mode=None, enable_inst_interactivity=True
 ) -> Sam3DualViTDetNeck:
     """Create SAM3 visual backbone with ViT and neck."""
     # Position encoding
-    position_encoding = _create_position_encoding(precompute_resolution=1008)
+    position_encoding = _create_position_encoding(precompute_resolution=image_size)
     # ViT backbone
-    vit_backbone: ViT = _create_vit_backbone(compile_mode=compile_mode)
+    vit_backbone: ViT = _create_vit_backbone(compile_mode=compile_mode,image_size=image_size)
     vit_neck: Sam3DualViTDetNeck = _create_vit_neck(
         position_encoding,
         vit_backbone,
@@ -533,18 +534,18 @@ def _create_sam3_transformer(
 
     return TransformerWrapper(encoder=encoder, decoder=decoder, d_model=256)
 
-
 def _load_checkpoint(model, checkpoint_path):
-    """Load model checkpoint from file."""
+    """Load model checkpoint from file, skipping the loading of freqs_cis."""
     with g_pathmgr.open(checkpoint_path, "rb") as f:
         ckpt = torch.load(f, map_location="cpu", weights_only=True)
+    
     if "model" in ckpt and isinstance(ckpt["model"], dict):
         ckpt = ckpt["model"]
+    
     sam3_image_ckpt = {
-        k.replace("detector.", ""): v
-        for k, v in ckpt.items()
-        if "detector" in k
+        k.replace("detector.", ""): v for k, v in ckpt.items() if "detector" in k
     }
+    
     if model.inst_interactive_predictor is not None:
         sam3_image_ckpt.update(
             {
@@ -553,12 +554,38 @@ def _load_checkpoint(model, checkpoint_path):
                 if "tracker" in k
             }
         )
-    missing_keys, _ = model.load_state_dict(sam3_image_ckpt, strict=False)
-    if len(missing_keys) > 0:
-        print(
-            f"loaded {checkpoint_path} and found "
-            f"missing and/or unexpected keys:\n{missing_keys=}"
-        )
+    
+    # 排除 'freqs_cis' 相关的键
+    filtered_sam3_image_ckpt = {k: v for k, v in sam3_image_ckpt.items() if not k.endswith('freqs_cis')}
+    
+    # 加载过滤后的 state_dict
+    missing_keys, unexpected_keys = model.load_state_dict(filtered_sam3_image_ckpt, strict=False)
+    
+# def _load_checkpoint(model, checkpoint_path):
+#     """Load model checkpoint from file."""
+#     with g_pathmgr.open(checkpoint_path, "rb") as f:
+#         ckpt = torch.load(f, map_location="cpu", weights_only=True)
+#     if "model" in ckpt and isinstance(ckpt["model"], dict):
+#         ckpt = ckpt["model"]
+#     sam3_image_ckpt = {
+#         k.replace("detector.", ""): v
+#         for k, v in ckpt.items()
+#         if "detector" in k
+#     }
+#     if model.inst_interactive_predictor is not None:
+#         sam3_image_ckpt.update(
+#             {
+#                 k.replace("tracker.", "inst_interactive_predictor.model."): v
+#                 for k, v in ckpt.items()
+#                 if "tracker" in k
+#             }
+#         )
+#     missing_keys, _ = model.load_state_dict(sam3_image_ckpt, strict=False)
+#     if len(missing_keys) > 0:
+#         print(
+#             f"loaded {checkpoint_path} and found "
+#             f"missing and/or unexpected keys:\n{missing_keys=}"
+#         )
 
 
 def _setup_device_and_mode(model, device, eval_mode):
@@ -575,6 +602,7 @@ def build_sam3_image_model(
     device="cuda" if torch.cuda.is_available() else "cpu",
     eval_mode=True,
     checkpoint_path=None,
+    image_size = 1008,
     load_from_HF=True,
     enable_segmentation=True,
     enable_inst_interactivity=False,
@@ -605,6 +633,7 @@ def build_sam3_image_model(
     # Create visual components
     compile_mode = "default" if compile else None
     vision_encoder = _create_vision_backbone(
+        image_size =image_size,
         compile_mode=compile_mode,
         enable_inst_interactivity=enable_inst_interactivity,
     )

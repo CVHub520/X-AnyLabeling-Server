@@ -6,6 +6,7 @@ params:
   bpe_path: "bpe_simple_vocab_16e6.txt.gz"
   model_path: "sam3.pt"
   device: "cuda:0"  # cuda:{index} or cpu
+  image_size: 1400
   conf_threshold: 0.25
   show_boxes: true
   show_masks: true
