@@ -19,6 +19,7 @@ class PositionEmbeddingSine(nn.Module):
         temperature: int = 10000,
         normalize: bool = True,
         scale: Optional[float] = None,
+        device: str = "cuda",
         precompute_resolution: Optional[int] = None,
     ):
         super().__init__()
@@ -44,7 +45,7 @@ class PositionEmbeddingSine(nn.Module):
                 (precompute_resolution // 32, precompute_resolution // 32),
             ]
             for size in precompute_sizes:
-                tensors = torch.zeros((1, 1) + size, device="cuda")
+                tensors = torch.zeros((1, 1) + size, device=device)
                 self.forward(tensors)
                 # further clone and detach it in the cache (just to be safe)
                 self.cache[size] = self.cache[size].clone().detach()
