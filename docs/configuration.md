@@ -228,6 +228,8 @@ Create `configs/auto_labeling/{model_id}.yaml` for each model with the following
 model_id: your_model_id           # Required: Must match filename and be globally unique
 display_name: "Your Model Name"   # Required: Shown in X-AnyLabeling UI
 batch_processing_mode: "default"   # Optional: Batch processing mode (see table below)
+capabilities:                      # Optional: Capability metadata for module-scoped integrations
+  ppocr_pipeline: true             # Example: consumed by PPOCR panel
 
 params:                           # Optional: All accessible via self.params in model
   model_path: "path/to/weights.pt"
@@ -246,6 +248,12 @@ widgets:                          # Optional: UI components (see table below)
     value: false
   ...
 ```
+
+**Capabilities Metadata (Optional):**
+
+- Use `capabilities` to expose module-specific model abilities to clients.
+- Models with non-empty `capabilities` are intended for specialized integrations and can be filtered out from the general Remote-Server model dropdown in X-AnyLabeling.
+- Keep `capabilities` values stable and machine-readable (boolean or structured dictionary) so clients can route them reliably.
 
 **Widget Configuration:**
 

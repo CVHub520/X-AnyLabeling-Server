@@ -84,6 +84,8 @@ Create `configs/auto_labeling/your_model_id.yaml`:
 model_id: your_model_id          # Required: Must be globally unique
 display_name: "Your Model Name"  # Required: Displayed in X-AnyLabeling UI
 batch_processing_mode: "default" # Optional: "default" or "text_prompt" (default: "default")
+capabilities:                    # Optional: Module-scoped capability metadata
+  ppocr_pipeline: true           # Example: consumed by PPOCR panel clients
 
 params:                          # Optional: All params are passed to your model's __init__
   model_path: "path/to/weights.pt"
@@ -102,6 +104,11 @@ widgets:
     value: false
   ...
 ```
+
+**Capabilities Guidance:**
+- `capabilities` is used for module-specific client routing rather than generic auto-labeling UI presentation.
+- If a model declares `capabilities`, clients may hide it from the general Remote-Server dropdown and surface it only in dedicated panels.
+- Use clear keys and stable semantics to keep client behavior predictable.
 
 See [Widget Reference](./configuration.md#model-configuration) for details.
 

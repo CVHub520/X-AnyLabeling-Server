@@ -72,6 +72,7 @@ Get metadata for all loaded models.
         {"name": "edit_conf", "value": 0.25},
         {"name": "edit_iou", "value": 0.70}
       ],
+      "capabilities": {},
       "params": {
         "model_path": "yolo11n.pt",
         "device": "cpu"
@@ -94,8 +95,12 @@ Get metadata for all loaded models.
 | `data` | Object | Dictionary mapping model IDs to their metadata |
 | `data[model_id].display_name` | String | Human-readable model name |
 | `data[model_id].widgets` | Array | UI widget configurations |
+| `data[model_id].capabilities` | Object | Optional capability metadata for module-specific client routing |
 | `data[model_id].params` | Object | Model parameters |
 | `data[model_id].batch_processing_mode` | String | Batch processing mode: `"default"` or `"text_prompt"` |
+
+> [!NOTE]
+> Models that declare `capabilities` can be consumed by dedicated client modules (for example, PPOCR panels) and may be hidden from generic Remote-Server dropdowns.
 
 **Example:**
 ```bash

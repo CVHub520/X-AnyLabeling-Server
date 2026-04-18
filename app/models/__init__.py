@@ -77,6 +77,7 @@ class BaseModel(ABC):
             "display_name": self.display_name,
             "widgets": self.config.get("widgets", []),
             "params": self.params,
+            "capabilities": self.config.get("capabilities", {}),
             "batch_processing_mode": self.config.get(
                 "batch_processing_mode", "default"
             ),

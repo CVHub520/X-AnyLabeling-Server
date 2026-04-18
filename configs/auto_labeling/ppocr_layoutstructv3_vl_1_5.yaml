@@ -1,0 +1,45 @@
+model_id: ppocr_layoutstructv3_vl_1_5
+display_name: "PaddleOCR (Local)"
+batch_processing_mode: "default"
+
+capabilities:
+  ppocr_pipeline: true
+
+params:
+  layout:
+    model_path: "PaddlePaddle/PP-DocLayoutV3_safetensors"
+    device: "cuda:0"
+    threshold:
+      paragraph_title: 0.30
+      text: 0.40
+      seal: 0.45
+      formula: 0.30
+      abstract: 0.50
+      algorithm: 0.50
+      aside_text: 0.50
+      chart: 0.50
+      content: 0.50
+      doc_title: 0.50
+      figure_title: 0.50
+      footer: 0.50
+      footnote: 0.50
+      formula_number: 0.50
+      header: 0.50
+      image: 0.50
+      number: 0.50
+      reference: 0.50
+      reference_content: 0.50
+      table: 0.50
+      vision_footnote: 0.50
+  content:
+    model_path: "PaddlePaddle/PaddleOCR-VL-1.5"
+    device: "cuda:0"
+    torch_dtype: "bfloat16"
+    max_new_tokens: 512
+    max_pixels: 1605632
+    spotting_max_pixels: 1605632
+    spotting_upscale_threshold: 1500
+
+widgets:
+  - name: button_run
+    value: null

@@ -9,9 +9,10 @@ enabled_models:
   # - qwen3vl_grounding_transformers
   # - qwen3vl_caption_api
   # - segment_anything_2
-  - segment_anything_3
-  - segment_anything_3_video
+  # - segment_anything_3
+  # - segment_anything_3_video
   # - glm_4_6v_grounding_api
   # - rexomni
   # - pp_doclayout_v3
   # - paddleocr_vl_1_5
+  # - ppocr_layoutstructv3_vl_1_5

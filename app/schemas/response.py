@@ -42,4 +42,5 @@ class PredictResponse(BaseModel):
     replace: Optional[bool] = None
 
     class Config:
+        extra = "allow"
         exclude_none = True
