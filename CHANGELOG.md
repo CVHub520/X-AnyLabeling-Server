@@ -1,3 +1,23 @@
+## `v0.0.8` (Apr 18, 2026)
+
+### 🚀 New Features
+
+- Add local PaddleOCR pipeline support
+- Add configurable image size for SAM3 inference (thanks @fystero) (#24)
+- Enhance Rex-Omni to support quadrilateral shapes and OCR task handling
+
+### 🐛 Bug Fixes
+
+- Add fallback for PyTorch 2.6+ weights-only checkpoint loading (#23)
+- Exclude unsupported parameters in Rex-Omni backends
+- Apply padding side only when flash attention is used
+
+### 🌟 Contributors
+
+A total of 3 developers contributed to this release.
+
+Thank @CVHub520, @fystero, @LiberiFatali
+
 ## `v0.0.7` (Feb 01, 2026)
 
 ### 🚀 New Features

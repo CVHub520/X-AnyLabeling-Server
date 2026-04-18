@@ -18,7 +18,7 @@ maintainers = [
     { name = "CVHub", email = "cvhub.cn@gmail.com" },
 ]
 classifiers = [
-    "License :: OSI Approved :: Apache Software License",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
 ]
