@@ -1,5 +1,6 @@
 # Copyright (c) Meta Platforms, Inc. and affiliates. All Rights Reserved
 
+import logging
 import os
 from typing import Optional
 
@@ -570,10 +571,29 @@ def _remove_freqs_cis_keys(state_dict):
     }
 
 
+def _torch_load_with_fallback(f, ckpt_path):
+    try:
+        return torch.load(f, map_location="cpu", weights_only=True)
+    except TypeError:
+        if hasattr(f, "seek"):
+            f.seek(0)
+        return torch.load(f, map_location="cpu")
+    except Exception as error:
+        if "Weights only load failed" not in str(error):
+            raise
+        logging.warning(
+            "weights_only checkpoint load failed for %s, retrying with weights_only=False",
+            ckpt_path,
+        )
+        if hasattr(f, "seek"):
+            f.seek(0)
+        return torch.load(f, map_location="cpu", weights_only=False)
+
+
 def _load_checkpoint(model, checkpoint_path, drop_freqs_cis=False):
     """Load model checkpoint from file."""
     with g_pathmgr.open(checkpoint_path, "rb") as f:
-        ckpt = torch.load(f, map_location="cpu", weights_only=True)
+        ckpt = _torch_load_with_fallback(f, checkpoint_path)
     if "model" in ckpt and isinstance(ckpt["model"], dict):
         ckpt = ckpt["model"]
     sam3_image_ckpt = {
@@ -851,7 +871,7 @@ def build_sam3_video_model(
         checkpoint_path = download_ckpt_from_hf()
     if checkpoint_path is not None:
         with g_pathmgr.open(checkpoint_path, "rb") as f:
-            ckpt = torch.load(f, map_location="cpu", weights_only=True)
+            ckpt = _torch_load_with_fallback(f, checkpoint_path)
         if "model" in ckpt and isinstance(ckpt["model"], dict):
             ckpt = ckpt["model"]
         if image_size != SAM3_DEFAULT_IMAGE_SIZE:

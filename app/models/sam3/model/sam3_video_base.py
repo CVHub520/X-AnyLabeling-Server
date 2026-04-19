@@ -1816,9 +1816,21 @@ class Sam3VideoBase(nn.Module):
         )
 
     def _load_checkpoint(self, ckpt_path: str, strict: bool = True):
-        sd = torch.load(ckpt_path, map_location="cpu", weights_only=True)[
-            "model"
-        ]
+        try:
+            ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=True)
+        except TypeError:
+            ckpt = torch.load(ckpt_path, map_location="cpu")
+        except Exception as error:
+            if "Weights only load failed" not in str(error):
+                raise
+            logger.warning(
+                f"weights_only checkpoint load failed for {ckpt_path}, "
+                "retrying with weights_only=False"
+            )
+            ckpt = torch.load(
+                ckpt_path, map_location="cpu", weights_only=False
+            )
+        sd = ckpt["model"]
         missing_keys, unexpected_keys = self.load_state_dict(sd, strict=strict)
         if len(missing_keys) > 0 or len(unexpected_keys) > 0:
             logger.warning(
