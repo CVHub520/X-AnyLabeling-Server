@@ -1,0 +1,40 @@
+model_id: yoloe_26l_seg
+display_name: "YOLOE-26L Segmentation (Text/Visual Prompt)"
+batch_processing_mode: "text_prompt"
+
+# -----------------------------------------------------------------------
+# Download weights:
+#   https://github.com/ultralytics/assets/releases
+#   Filename: yoloe-26l-seg.pt
+#
+# Prompt modes (set via request params):
+#   - Text prompt  : params["text_prompt"] = "person.car.bus"
+#   - Visual prompt: params["marks"] = [{"type": "rectangle",
+#                                        "data": [x1, y1, x2, y2]}]
+#   - Prompt-free  : no text_prompt or marks (use -pf checkpoint instead)
+# -----------------------------------------------------------------------
+params:
+  model_path: "yoloe-26l-seg.pt"
+  device: "cuda:0"
+  show_boxes: false
+  conf_threshold: 0.25
+  iou_threshold: 0.45
+  epsilon_factor: 0.001
+
+widgets:
+  - name: button_run  
+    value: null
+  - name: input_conf
+    value: null
+  - name: edit_conf
+    value: 0.25
+  - name: input_iou
+    value: null
+  - name: edit_iou
+    value: 0.45
+  - name: mask_fineness_slider
+    value: 10
+  - name: mask_fineness_value_label
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false

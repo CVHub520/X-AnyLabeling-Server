@@ -1,0 +1,34 @@
+model_id: yoloe_26s_seg_pf
+display_name: "YOLOE-26S Segmentation (Prompt-Free)"
+batch_processing_mode: "default"
+
+# -----------------------------------------------------------------------
+# Prompt-free models use internal LVIS vocabulary (~1200 categories).
+# No text_prompt or marks are required; just send an image.
+# Download: https://github.com/ultralytics/assets/releases
+# -----------------------------------------------------------------------
+params:
+  model_path: "yoloe-26s-seg-pf.pt"
+  device: "cuda:0"
+  show_boxes: false
+  conf_threshold: 0.25
+  iou_threshold: 0.45
+  epsilon_factor: 0.001
+
+widgets:
+  - name: button_run
+    value: null
+  - name: input_conf
+    value: null
+  - name: edit_conf
+    value: 0.25
+  - name: input_iou
+    value: null
+  - name: edit_iou
+    value: 0.45
+  - name: mask_fineness_slider
+    value: 10
+  - name: mask_fineness_value_label
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false

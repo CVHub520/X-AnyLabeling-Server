@@ -1,0 +1,36 @@
+model_id: yoloe_26s_seg
+display_name: "YOLOE-26S Segmentation (Text/Visual Prompt)"
+batch_processing_mode: "text_prompt"
+
+# -----------------------------------------------------------------------
+# Server-side params loaded once at model startup.
+# Runtime params (conf_threshold, iou_threshold, epsilon_factor, marks,
+# text_prompt) are sent per-request from the X-AnyLabeling client.
+# -----------------------------------------------------------------------
+params:
+  # Download from: https://github.com/ultralytics/assets/releases
+  # e.g. yoloe-26s-seg.pt | yoloe-26m-seg.pt | yoloe-26l-seg.pt
+  model_path: "yoloe-26s-seg.pt"
+  device: "cuda:0"
+  show_boxes: false
+  conf_threshold: 0.25
+  iou_threshold: 0.45
+  epsilon_factor: 0.001
+
+widgets:
+  - name: button_run
+    value: null
+  - name: input_conf
+    value: null
+  - name: edit_conf
+    value: 0.25
+  - name: input_iou
+    value: null
+  - name: edit_iou
+    value: 0.45
+  - name: mask_fineness_slider
+    value: 10
+  - name: mask_fineness_value_label
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false
