@@ -66,13 +66,14 @@ def _setup_tf32() -> None:
 _setup_tf32()
 
 
-def _create_position_encoding(precompute_resolution=None):
+def _create_position_encoding(precompute_resolution=None, device="cuda"):
     """Create position encoding for visual backbone."""
     return PositionEmbeddingSine(
         num_pos_feats=256,
         normalize=True,
         scale=None,
         temperature=10000,
+        device=device,
         precompute_resolution=precompute_resolution,
     )
 
@@ -531,13 +532,13 @@ def _create_text_encoder(bpe_path: str) -> VETextEncoder:
 def _create_vision_backbone(
     compile_mode=None,
     enable_inst_interactivity=True,
-    image_size=SAM3_DEFAULT_IMAGE_SIZE,
+    image_size=SAM3_DEFAULT_IMAGE_SIZE,device="cuda"
 ) -> Sam3DualViTDetNeck:
     """Create SAM3 visual backbone with ViT and neck."""
     # Position encoding
     position_encoding = _create_position_encoding(
-        precompute_resolution=image_size
-    )
+        precompute_resolution=image_size,
+        device=device)
     # ViT backbone
     vit_backbone: ViT = _create_vit_backbone(
         compile_mode=compile_mode,
@@ -624,8 +625,8 @@ def _load_checkpoint(model, checkpoint_path, drop_freqs_cis=False):
 
 def _setup_device_and_mode(model, device, eval_mode):
     """Setup model device and evaluation mode."""
-    if device == "cuda":
-        model = model.cuda()
+    if device.startswith("cuda"):
+        model = model.to(device)
     if eval_mode:
         model.eval()
     return model
@@ -670,6 +671,7 @@ def build_sam3_image_model(
         compile_mode=compile_mode,
         enable_inst_interactivity=enable_inst_interactivity,
         image_size=image_size,
+        device=device,
     )
 
     # Create text components
@@ -775,7 +777,7 @@ def build_sam3_video_model(
     )
 
     # Build Detector components
-    visual_neck = _create_vision_backbone(image_size=image_size)
+    visual_neck = _create_vision_backbone(image_size=image_size,device=device)
     text_encoder = _create_text_encoder(bpe_path)
     backbone = SAM3VLBackbone(scalp=1, visual=visual_neck, text=text_encoder)
     transformer = _create_sam3_transformer(

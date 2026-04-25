@@ -31,7 +31,7 @@ class SegmentAnything3(BaseModel):
         self.image_size = self.params.get("image_size", 1008)
 
         if "cuda" in device and torch.cuda.is_available():
-            self.device = "cuda"
+            self.device = device
         else:
             self.device = "cpu"
             if "cuda" in device:
@@ -49,14 +49,14 @@ class SegmentAnything3(BaseModel):
             image_size=self.image_size,
         )
 
-        if self.device == "cuda" and torch.cuda.is_available():
+        if self.device.startswith("cuda") and torch.cuda.is_available():
             # turn on tfloat32 for Ampere GPUs
             # https://pytorch.org/docs/stable/notes/cuda.html#tensorfloat-32-tf32-on-ampere-devices
             torch.backends.cuda.matmul.allow_tf32 = True
             torch.backends.cudnn.allow_tf32 = True
 
             # use bfloat16 for the entire env. If your card doesn't support it, try float16 instead
-            torch.autocast("cuda", dtype=torch.bfloat16).__enter__()
+            torch.autocast(self.device, dtype=torch.bfloat16).__enter__()
 
             # inference mode for the whole env. Disable if you need gradients
             torch.inference_mode().__enter__()
