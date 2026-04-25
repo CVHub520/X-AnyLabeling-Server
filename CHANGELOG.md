@@ -1,3 +1,19 @@
+## `v0.0.10` (Apr 25, 2026)
+
+### 🚀 New Features
+
+- Add reviewed YOLOE 26s segmentation configs
+
+### 🐛 Bug Fixes
+
+- Use configured CUDA device string for SAM3 inference
+
+### 🌟 Contributors
+
+A total of 2 developers contributed to this release.
+
+Thank @93054182, @CVHub520
+
 ## `v0.0.9` (Apr 25, 2026)
 
 ### 🚀 New Features
