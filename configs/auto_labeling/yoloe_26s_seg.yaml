@@ -1,0 +1,42 @@
+model_id: yoloe_26s_seg
+display_name: "YOLOE-26s-Seg"
+batch_processing_mode: "text_prompt"
+
+# -----------------------------------------------------------------------
+# Server-side params loaded once at model startup.
+# Runtime params (conf_threshold, iou_threshold, epsilon_factor, marks,
+# text_prompt) are sent per-request from the X-AnyLabeling client.
+# -----------------------------------------------------------------------
+params:
+  # Download from: https://docs.ultralytics.com/models/yoloe
+  # e.g. yoloe-26s-seg.pt | yoloe-26m-seg.pt | yoloe-26l-seg.pt
+  model_path: "yoloe-26s-seg.pt"
+  device: "cuda:0"
+  show_boxes: true
+  show_masks: false
+  conf_threshold: 0.25
+  epsilon_factor: 0.001
+
+widgets:
+  - name: edit_text
+    value: null
+  - name: button_send
+    value: null
+  - name: add_pos_rect
+    value: null
+  - name: button_run_rect
+    value: null
+  - name: button_clear
+    value: null
+  - name: button_finish_object
+    value: null
+  - name: input_conf
+    value: null
+  - name: edit_conf
+    value: 0.25
+  - name: mask_fineness_slider
+    value: 10
+  - name: mask_fineness_value_label
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false

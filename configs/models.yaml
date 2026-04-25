@@ -5,6 +5,8 @@ enabled_models:
   - yolo11n_obb
   - yolo11n_track
   # - yolo11s
+  - yoloe_26s_seg
+  - yoloe_26s_seg_pf
   # - qwen3vl_caption_transformers
   # - qwen3vl_grounding_transformers
   # - qwen3vl_caption_api
