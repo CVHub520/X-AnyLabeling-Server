@@ -54,6 +54,13 @@ transformers = [
     "qwen_vl_utils",
 ]
 
+locateanything = [
+    "transformers>=4.50,<5",
+    "accelerate",
+    "peft",
+    "torchvision",
+]
+
 sam3 = [
     "decord",
     "einops",

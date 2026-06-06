@@ -1,12 +1,12 @@
 enabled_models:
   - yolo11n
-  - yolo11n_seg
-  - yolo11n_pose
-  - yolo11n_obb
-  - yolo11n_track
+  # - yolo11n_seg
+  # - yolo11n_pose
+  # - yolo11n_obb
+  # - yolo11n_track
   # - yolo11s
-  - yoloe_26s_seg
-  - yoloe_26s_seg_pf
+  # - yoloe_26s_seg
+  # - yoloe_26s_seg_pf
   # - qwen3vl_caption_transformers
   # - qwen3vl_grounding_transformers
   # - qwen3vl_caption_api
@@ -14,6 +14,7 @@ enabled_models:
   # - segment_anything_3
   # - segment_anything_3_video
   # - glm_4_6v_grounding_api
+  # - locateanything
   # - rexomni
   # - pp_doclayout_v3
   # - paddleocr_vl_1_5

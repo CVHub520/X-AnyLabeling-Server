@@ -1,0 +1,26 @@
+model_id: locateanything
+display_name: "LocateAnything"
+batch_processing_mode: "text_prompt"
+
+params:
+  model_path: "nvidia/LocateAnything-3B"
+  # Use "cuda", "cuda:0", "cuda:1", or "cpu".
+  device: "cuda"
+  dtype: "bfloat16"
+  task: "detection"
+  max_image_size: 1024
+  max_new_tokens: 512
+  # Supported values: "fast", "slow", and "hybrid".
+  generation_mode: "hybrid"
+  temperature: 0.7
+  verbose: false
+
+widgets:
+  - name: remote_task_select_combobox
+    value: null
+  - name: button_send
+    value: null
+  - name: edit_text
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false
