@@ -155,7 +155,7 @@ security:
     - "http://192.168.1.100"
 ```
 
-> ![NOTE]
+> [!NOTE]
 > The `/health` endpoint does not require authentication, even when `api_key_enabled: true`.
 
 ### 1.4 Performance Settings

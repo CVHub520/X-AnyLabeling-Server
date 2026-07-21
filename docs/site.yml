@@ -1,0 +1,13 @@
+schema_version: 1
+product_id: server
+default_locale: en
+
+docs:
+  locales:
+    en: docs/source/en
+    zh-Hans: docs/source/zh_cn
+  sidebars:
+    en: docs/source/en/_toctree.yml
+    zh-Hans: docs/source/zh_cn/_toctree.yml
+
+openapi: docs/openapi.json

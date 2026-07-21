@@ -1,0 +1,41 @@
+name: Check OpenAPI Schema
+
+on:
+  pull_request:
+    paths:
+      - "app/api/**"
+      - "app/schemas/**"
+      - "app/main.py"
+      - "docs/openapi.json"
+      - "scripts/export_openapi.py"
+  push:
+    branches:
+      - main
+    paths:
+      - "app/api/**"
+      - "app/schemas/**"
+      - "app/main.py"
+      - "docs/openapi.json"
+      - "scripts/export_openapi.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  openapi:
+    name: Verify generated schema
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install server
+        run: python -m pip install -e .
+
+      - name: Check OpenAPI schema
+        run: python scripts/export_openapi.py --check

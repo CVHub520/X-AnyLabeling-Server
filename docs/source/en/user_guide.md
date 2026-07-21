@@ -46,12 +46,12 @@ class YourModel(BaseModel):
 
 **Key Points:**
 - Input `image` is in BGR format (OpenCV style)
-- Return a dict with `shapes` and `description` fields (see [Response Schema](#13-response-schema))
-- Check [app/models/](../app/models/) for complete implementation examples
+- Return a dict with `shapes` and `description` fields (see [Response Schema](#2-response-schema))
+- Check [app/models/](../../../app/models/) for complete implementation examples
 
 ### 1.2 Register Model
 
-Just only use the `@register_model` decorator to register your model class.
+Use the `@register_model` decorator to register your model class.
 
 ```python
 ...
@@ -110,7 +110,7 @@ widgets:
 - If a model declares `capabilities`, clients may hide it from the general Remote-Server dropdown and surface it only in dedicated panels.
 - Use clear keys and stable semantics to keep client behavior predictable.
 
-See [Widget Reference](./configuration.md#model-configuration) for details.
+See [Widget Reference](./configuration.md#2-model-configuration) for details.
 
 ### 1.4 Enable Model
 
@@ -167,7 +167,7 @@ Each `Shape` object should have the following properties:
 - **`circle`**: Circle defined by center and radius point
 - **`linestrip`**: Connected line segments (polyline)
 
-For detailed shape specifications, see the [X-AnyLabeling User Guide](https://github.com/CVHub520/X-AnyLabeling/blob/main/docs/en/user_guide.md) and [`app/schemas/shape.py`](../app/schemas/shape.py).
+For detailed shape specifications, see the [X-AnyLabeling User Guide](https://github.com/CVHub520/X-AnyLabeling/blob/main/docs/en/user_guide.md) and [`app/schemas/shape.py`](../../../app/schemas/shape.py).
 
 ## 3. Troubleshooting
 

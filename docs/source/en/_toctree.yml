@@ -1,0 +1,15 @@
+- title: Get started
+  sections:
+    - local: get_started
+      title: Quick Start
+    - local: configuration
+      title: Configuration
+- title: Build and integrate
+  sections:
+    - local: user_guide
+      title: Custom Model Integration
+    - local: router
+      title: API Guide
+    - local: api-reference
+      title: API Reference
+      generated: openapi

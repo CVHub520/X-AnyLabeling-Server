@@ -74,14 +74,15 @@ uv pip install -e .[all]
 > If you're new to X-AnyLabeling-Server, we recommend using **Option 2** to install all dependencies so you can run the demo models out of the box. If you only plan to deploy your own custom models without these examples, **Option 1** is sufficient.
 
 > [!NOTE]
-> If you want to run the `sam3` service stably, make sure you are using Python 3.12 or higher, PyTorch 2.7 or higher, and a CUDA-compatible GPU with CUDA 12.6 or higher.</br>
-> For `sam2`, you can directly install the `sam3` dependencies to build it.</br>
-> For GLM and other API-based models, you can set the API key via environment variables (e.g., `ZHIPU_API_KEY`) in the terminal, or configure it in the model configuration file. Alternatively, you can deploy and integrate them using vLLM or SGLang.</br>
-> For `locateanything`, install the `[locateanything]` extra in a separate environment. It requires `transformers>=4.50,<5`; the upstream `nvidia/LocateAnything-3B` remote Qwen2 runtime returns invalid outputs with Transformers 5.x.</br>
-> For `rexomni` and `paddleocr_vl_1_5`, we recommend using the `[all]` installation mode to ensure all required dependencies are properly installed.</br>
-> For `paddleocr_vl_1_5`, requires `transformers>=5.0.0` (install via `python -m pip install "transformers>=5.0.0"`). Use flash-attn to boost performance and reduce memory usage. If inference times out, adjust parameters (`max_new_tokens`, `max_pixels`, `spotting_max_pixels`, `spotting_upscale_threshold`) in `configs/auto_labeling/paddleocr_vl_1_5.yaml` based on your GPU memory. See details at https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.5</br>
-> For `pp_doclayout_v3`, requires the latest transformers development branch (install via `pip install --upgrade git+https://github.com/huggingface/transformers.git`). See details at https://huggingface.co/PaddlePaddle/PP-DocLayoutV3</br>
-> For `geco2`, you can download the weights for `CNTQG_multitrain_ca44.pth` and `sam2_hiera_base_plus.pt` from [here](https://github.com/CVHub520/X-AnyLabeling-Server/releases/download/v0.0.9).
+> Model requirements differ:
+>
+> - `sam3`: Use Python 3.12+, PyTorch 2.7+, and a CUDA-compatible GPU with CUDA 12.6+. The same dependency group can be used to build `sam2`.
+> - GLM and other API models: Supply credentials through environment variables such as `ZHIPU_API_KEY`, or through a private model configuration. They can also be deployed through vLLM or SGLang.
+> - `locateanything`: Install the `[locateanything]` extra in a separate environment. It requires `transformers>=4.50,<5`.
+> - `rexomni` and `paddleocr_vl_1_5`: Prefer the `[all]` installation mode.
+> - `paddleocr_vl_1_5`: Install `transformers>=5.0.0`. Tune generation and image-size parameters in `configs/auto_labeling/paddleocr_vl_1_5.yaml` to match available GPU memory.
+> - `pp_doclayout_v3`: Install a Transformers version compatible with the current upstream model release.
+> - `geco2`: Download `CNTQG_multitrain_ca44.pth` and `sam2_hiera_base_plus.pt` from the [v0.0.9 assets](https://github.com/CVHub520/X-AnyLabeling-Server/releases/download/v0.0.9).
 
 After installation, you can quickly start the service with the following command:
 
@@ -132,7 +133,7 @@ Once the server is running, open the [X-AnyLabeling client](https://github.com/C
 2. Launch X-AnyLabeling and press `Ctrl+A` to enable AI auto-labeling.
 3. Open the model dropdown, navigate to the **CVHub** provider section, and select **Remote-Server**.
 
-Now, sit back and let your remote models do the labeling work for you—enjoy the magic! 🤣
+The desktop client can now discover the enabled remote models and convert their predictions into editable annotations.
 
 > [!TIP]
 > For detailed instructions on using the client, see the [X-AnyLabeling User Guide](https://github.com/CVHub520/X-AnyLabeling/blob/main/docs/en/user_guide.md).

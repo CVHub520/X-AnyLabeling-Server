@@ -30,10 +30,11 @@ X-AnyLabeling-Server is a simple, lightweight and extensible serving framework f
 
 ## Getting Started
 
-- [Installation and Setup](./docs/get_started.md)
-- [Custom Model Integration](./docs/user_guide.md)
-- [API Reference](./docs/router.md)
-- [Configuration Guide](./docs/configuration.md)
+- [Installation and Setup](./docs/source/en/get_started.md)
+- [Configuration Guide](./docs/source/en/configuration.md)
+- [Custom Model Integration](./docs/source/en/user_guide.md)
+- [API Guide](./docs/source/en/router.md)
+- [OpenAPI Schema](./docs/openapi.json)
 
 ## Contributing
 

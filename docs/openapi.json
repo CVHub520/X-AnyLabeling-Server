@@ -1,0 +1,682 @@
+{
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "description": "Health check response schema.",
+        "properties": {
+          "models_loaded": {
+            "title": "Models Loaded",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "timestamp": {
+            "title": "Timestamp",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "models_loaded",
+          "timestamp"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "PredictRequest": {
+        "description": "Request schema for prediction endpoint.",
+        "properties": {
+          "image": {
+            "title": "Image",
+            "type": "string"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "params": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Params",
+            "type": "object"
+          }
+        },
+        "required": [
+          "model",
+          "image"
+        ],
+        "title": "PredictRequest",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "VideoInitRequest": {
+        "description": "Request schema for video session initialization.",
+        "properties": {
+          "frames": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Frames",
+            "type": "array"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "start_frame_index": {
+            "default": 0,
+            "title": "Start Frame Index",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "model",
+          "frames"
+        ],
+        "title": "VideoInitRequest",
+        "type": "object"
+      },
+      "VideoPromptRequest": {
+        "description": "Request schema for video frame prompt.",
+        "properties": {
+          "frame_index": {
+            "default": 0,
+            "title": "Frame Index",
+            "type": "integer"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "obj_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Obj Id"
+          },
+          "params": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Params",
+            "type": "object"
+          },
+          "point_labels": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Point Labels"
+          },
+          "points": {
+            "anyOf": [
+              {
+                "items": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "type": "array"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Points"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "string"
+          },
+          "text_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text Prompt"
+          }
+        },
+        "required": [
+          "session_id",
+          "model"
+        ],
+        "title": "VideoPromptRequest",
+        "type": "object"
+      },
+      "VideoPropagateRequest": {
+        "description": "Request schema for video propagation.",
+        "properties": {
+          "end_frame": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Frame"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "string"
+          },
+          "start_frame": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Frame"
+          }
+        },
+        "required": [
+          "session_id",
+          "model"
+        ],
+        "title": "VideoPropagateRequest",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "AI Model Inference Service for X-AnyLabeling",
+    "title": "X-AnyLabeling Server",
+    "version": "0.0.11"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "description": "Health check endpoint.\n\nReturns:\n    Health status with models loaded count.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health Check",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/v1/models": {
+      "get": {
+        "description": "Get all available models and their metadata.\n\nReturns:\n    Success response with models information.",
+        "operationId": "get_models_v1_models_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Models",
+        "tags": [
+          "Models"
+        ]
+      }
+    },
+    "/v1/models/{model_id}/info": {
+      "get": {
+        "description": "Get information about a specific model.\n\nArgs:\n    model_id: Model identifier.\n\nReturns:\n    Success response with model information or error response.",
+        "operationId": "get_model_info_v1_models__model_id__info_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "model_id",
+            "required": true,
+            "schema": {
+              "title": "Model Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Model Info",
+        "tags": [
+          "Models"
+        ]
+      }
+    },
+    "/v1/predict": {
+      "post": {
+        "description": "Execute prediction on an image.\n\nArgs:\n    request: Prediction request with model, image, and parameters.\n\nReturns:\n    Success response with prediction results or error response.",
+        "operationId": "predict_v1_predict_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Predict",
+        "tags": [
+          "Prediction"
+        ]
+      }
+    },
+    "/v1/video/cancel/{task_id}": {
+      "post": {
+        "description": "Cancel propagation task.\n\nArgs:\n    task_id: Task identifier.\n\nReturns:\n    Success response or error response.",
+        "operationId": "cancel_propagation_v1_video_cancel__task_id__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "task_id",
+            "required": true,
+            "schema": {
+              "title": "Task Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cancel Propagation",
+        "tags": [
+          "Video"
+        ]
+      }
+    },
+    "/v1/video/cleanup/{session_id}": {
+      "post": {
+        "description": "Clean up and remove a video session.\n\nArgs:\n    session_id: Session identifier.\n    model: Model identifier.\n\nReturns:\n    Success response or error response.",
+        "operationId": "cleanup_video_session_v1_video_cleanup__session_id__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "model",
+            "required": true,
+            "schema": {
+              "title": "Model",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cleanup Video Session",
+        "tags": [
+          "Video"
+        ]
+      }
+    },
+    "/v1/video/init": {
+      "post": {
+        "description": "Initialize video session with frame sequence.\n\nArgs:\n    request: Request containing model, frames, and start_frame_index.\n\nReturns:\n    Success response with session_id or error response.",
+        "operationId": "init_video_session_v1_video_init_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoInitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Init Video Session",
+        "tags": [
+          "Video"
+        ]
+      }
+    },
+    "/v1/video/prompt": {
+      "post": {
+        "description": "Add text or point prompt to a video frame.\n\nArgs:\n    request: Request containing session_id, text_prompt or points, frame_index, and params.\n\nReturns:\n    Success response with masks or error response.",
+        "operationId": "prompt_video_frame_v1_video_prompt_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoPromptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Prompt Video Frame",
+        "tags": [
+          "Video"
+        ]
+      }
+    },
+    "/v1/video/propagate": {
+      "post": {
+        "description": "Start video propagation task.\n\nArgs:\n    request: Request containing session_id and optional frame range.\n\nReturns:\n    Success response with task_id or error response.",
+        "operationId": "propagate_video_v1_video_propagate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoPropagateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Propagate Video",
+        "tags": [
+          "Video"
+        ]
+      }
+    },
+    "/v1/video/propagate/stream": {
+      "post": {
+        "description": "Start video propagation with streaming response (SSE).\n\nArgs:\n    request: Request containing session_id and optional frame range.\n\nReturns:\n    StreamingResponse with SSE events for progress and results.",
+        "operationId": "propagate_video_stream_v1_video_propagate_stream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoPropagateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Propagate Video Stream",
+        "tags": [
+          "Video"
+        ]
+      }
+    },
+    "/v1/video/status/{task_id}": {
+      "get": {
+        "description": "Get propagation task status.\n\nArgs:\n    task_id: Task identifier.\n\nReturns:\n    Success response with task status and progress.",
+        "operationId": "get_propagation_status_v1_video_status__task_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "task_id",
+            "required": true,
+            "schema": {
+              "title": "Task Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Propagation Status",
+        "tags": [
+          "Video"
+        ]
+      }
+    }
+  }
+}

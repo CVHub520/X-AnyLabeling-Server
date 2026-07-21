@@ -1,0 +1,15 @@
+- title: 开始使用
+  sections:
+    - local: get_started
+      title: 快速入门
+    - local: configuration
+      title: 配置指南
+- title: 构建与集成
+  sections:
+    - local: user_guide
+      title: 自定义模型接入
+    - local: router
+      title: API 使用指南
+    - local: api-reference
+      title: API 参考
+      generated: openapi
