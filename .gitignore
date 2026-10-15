@@ -90,6 +90,7 @@ ipython_config.py
 
 # Compressed files
 *.gz
+!app/models/sam3/assets/bpe_simple_vocab_16e6.txt.gz
 
 # pyenv
 .python-version

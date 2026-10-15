@@ -99,6 +99,9 @@ where = ["."]
 include = ["app*"]
 exclude = ["logs*", "weights*", "configs*", "tests*", "docs*"]
 
+[tool.setuptools.package-data]
+"app.models.sam3" = ["assets/bpe_simple_vocab_16e6.txt.gz"]
+
 [tool.setuptools.dynamic]
 version = {attr = "app.__version__"}
 
