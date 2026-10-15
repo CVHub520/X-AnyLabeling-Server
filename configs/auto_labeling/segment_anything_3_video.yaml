@@ -4,7 +4,7 @@ batch_processing_mode: "video"
 auto_clear_cache_label_and_gid: True
 
 params:
-  bpe_path: null
+  bpe_path: "bpe_simple_vocab_16e6.txt.gz"
   model_path: "sam3.pt"
   devices: [0]
   image_size: 1008

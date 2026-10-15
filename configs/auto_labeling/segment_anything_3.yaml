@@ -3,7 +3,7 @@ display_name: "Segment Anything 3"
 batch_processing_mode: "text_prompt"
 
 params:
-  bpe_path: null
+  bpe_path: "bpe_simple_vocab_16e6.txt.gz"
   model_path: "sam3.pt"
   device: "cuda:0"  # cuda:{index} or cpu
   image_size: 1008
