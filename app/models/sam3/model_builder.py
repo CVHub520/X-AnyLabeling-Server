@@ -661,7 +661,6 @@ def build_sam3_image_model(
     if bpe_path is None:
         bpe_path = os.path.join(
             os.path.dirname(__file__),
-            "..",
             "assets",
             "bpe_simple_vocab_16e6.txt.gz",
         )
@@ -765,7 +764,6 @@ def build_sam3_video_model(
     if bpe_path is None:
         bpe_path = os.path.join(
             os.path.dirname(__file__),
-            "..",
             "assets",
             "bpe_simple_vocab_16e6.txt.gz",
         )
