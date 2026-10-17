@@ -62,6 +62,11 @@ locateanything = [
     "torchvision",
 ]
 
+groundingpi = [
+    "transformers @ https://raw.githubusercontent.com/groundingpi/GroundingPI/090932430bbbeea004cfa461767ede7f563c0f3a/third_party/transformers.tar.gz#sha256=3b9d4b20efc92041d3d270be1b875a760f7ed2651ba01be59286d1e0ad6d4f25",
+    "accelerate",
+]
+
 sam3 = [
     "decord",
     "einops",
