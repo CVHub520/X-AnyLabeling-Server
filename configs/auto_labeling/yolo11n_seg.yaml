@@ -4,6 +4,7 @@ batch_processing_mode: "default"
 
 params:
   model_path: "yolo11n-seg.pt"
+  # cuda | cuda:0 | cuda:1 | cpu
   device: "cuda:0"
   show_boxes: false
   epsilon_factor: 0.001

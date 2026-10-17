@@ -9,7 +9,8 @@ params:
   temperature: 0.7
   timeout: 60
   thinking: false
-  api_key: ""  # Optional. You can also set the API key via the ZHIPU_API_KEY environment variable.
+  # Optional. You can also set the API key via the ZHIPU_API_KEY environment variable.
+  api_key: ""
 
 widgets:
   - name: button_send

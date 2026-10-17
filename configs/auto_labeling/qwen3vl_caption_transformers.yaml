@@ -3,9 +3,12 @@ display_name: "Qwen3-VL Caption (detailed)"
 batch_processing_mode: "default"
 
 params:
+  # transformers | openai
   backend: "transformers"
+  # caption | grounding
   task: "caption"
   model_path: "Qwen/Qwen3-VL-2B-Instruct"
+  # auto | cuda | cuda:0 | cuda:1 | cpu
   device: "auto"
   max_new_tokens: 512
   repetition_penalty: 1.1

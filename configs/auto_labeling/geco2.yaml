@@ -5,7 +5,8 @@ batch_processing_mode: "default"
 params:
   model_path: "CNTQG_multitrain_ca44.pth"
   sam2_checkpoint_path: "sam2_hiera_base_plus.pt"
-  device: "cuda:0"  # cuda:{index} or cpu
+  # cuda | cuda:0 | cuda:1 | cpu
+  device: "cuda:0"
   image_size: 1024
   reduction: 16
   emb_dim: 256

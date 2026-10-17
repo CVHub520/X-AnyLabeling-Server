@@ -3,9 +3,12 @@ display_name: "Qwen3-VL Grounding (Transformers)"
 batch_processing_mode: "text_prompt"
 
 params:
+  # transformers | openai
   backend: "transformers"
+  # caption | grounding
   task: "grounding"
   model_path: "Qwen/Qwen3-VL-2B-Instruct"
+  # auto | cuda | cuda:0 | cuda:1 | cpu
   device: "auto"
   max_new_tokens: 2048
   repetition_penalty: 1.2

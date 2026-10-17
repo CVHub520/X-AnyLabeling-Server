@@ -8,6 +8,7 @@ capabilities:
 params:
   layout:
     model_path: "PaddlePaddle/PP-DocLayoutV3_safetensors"
+    # cuda | cuda:0 | cuda:1 | cpu
     device: "cuda:0"
     threshold:
       paragraph_title: 0.30
@@ -33,7 +34,9 @@ params:
       vision_footnote: 0.50
   content:
     model_path: "PaddlePaddle/PaddleOCR-VL-1.5"
+    # cuda | cuda:0 | cuda:1 | cpu
     device: "cuda:0"
+    # bfloat16 | float16 | float32
     torch_dtype: "bfloat16"
     max_new_tokens: 512
     max_pixels: 1605632

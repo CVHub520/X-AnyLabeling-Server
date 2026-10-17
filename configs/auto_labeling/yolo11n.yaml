@@ -4,6 +4,7 @@ batch_processing_mode: "default"
 
 params:
   model_path: "yolo11n.pt"
+  # cuda | cuda:0 | cuda:1 | cpu
   device: "cpu"
 
 widgets:

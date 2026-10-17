@@ -25,7 +25,7 @@ def setup_logging(config: LoggingConfig):
         sys.stdout,
         format=console_format,
         level=config.console_level,
-        colorize=True,
+        colorize=False,
     )
 
     if config.file_enabled:

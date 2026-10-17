@@ -2,13 +2,12 @@ model_id: yoloe_26s_seg_pf
 display_name: "YOLOE-26s-Seg-pf"
 batch_processing_mode: "default"
 
-# -----------------------------------------------------------------------
 # Prompt-free models use internal LVIS vocabulary (~1200 categories).
 # No text_prompt or marks are required; just send an image.
 # Download: https://docs.ultralytics.com/models/yoloe
-# -----------------------------------------------------------------------
 params:
   model_path: "yoloe-26s-seg-pf.pt"
+  # cuda | cuda:0 | cuda:1 | cpu
   device: "cuda:0"
   show_boxes: true
   show_masks: false

@@ -3,7 +3,9 @@ display_name: "Qwen3-VL Caption (vLLM)"
 batch_processing_mode: "default"
 
 params:
+  # transformers | openai
   backend: "openai"
+  # caption | grounding
   task: "caption"
   api_base: "http://localhost:8080/v1"
   api_key: "EMPTY"

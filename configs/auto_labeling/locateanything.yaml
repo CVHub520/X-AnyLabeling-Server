@@ -4,13 +4,15 @@ batch_processing_mode: "text_prompt"
 
 params:
   model_path: "nvidia/LocateAnything-3B"
-  # Use "cuda", "cuda:0", "cuda:1", or "cpu".
+  # cuda | cuda:0 | cuda:1 | cpu
   device: "cuda"
+  # bfloat16 | float16 | float32
   dtype: "bfloat16"
+  # detection | grounding | pointing | text_detection
   task: "detection"
   max_image_size: 1024
   max_new_tokens: 512
-  # Supported values: "fast", "slow", and "hybrid".
+  # fast | slow | hybrid
   generation_mode: "hybrid"
   temperature: 0.7
   verbose: false

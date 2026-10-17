@@ -3,16 +3,21 @@ display_name: "Rex-Omni"
 
 params:
   model_path: "IDEA-Research/Rex-Omni"
-  backend: "transformers"    # vllm
-  attn_implementation: null  # flash_attention_2
+  # transformers | vllm
+  backend: "transformers"
+  # null | sdpa | eager | flash_attention_2
+  attn_implementation: null
+  # auto | balanced | balanced_low_0 | sequential | cuda:0 | cpu
   device_map: "auto"
   max_tokens: 4096
   temperature: 0.0
   top_p: 0.8
   top_k: 1
   repetition_penalty: 1.05
-  min_pixels: 12544    # 16 * 28 * 28
-  max_pixels: 2007040  # 2560 * 28 * 28
+  # 16 * 28 * 28
+  min_pixels: 12544
+  # 2560 * 28 * 28
+  max_pixels: 2007040
 
 widgets:
   - name: remote_task_select_combobox

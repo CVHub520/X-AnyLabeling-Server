@@ -2,14 +2,17 @@ model_id: segment_anything_2
 display_name: "Segment Anything 2.1"
 
 params:
-  model_cfg: "sam2.1_hiera_b+"  # options: [sam2.1_hiera_l, sam2.1_hiera_s, sam2.1_hiera_t]
+  # sam2.1_hiera_b+ | sam2.1_hiera_l | sam2.1_hiera_s | sam2.1_hiera_t
+  model_cfg: "sam2.1_hiera_b+"
   model_path: "sam2.1_hiera_base_plus.pt"
+  # cuda | cuda:0 | cuda:1 | cpu
   device: "cuda:0"
   show_boxes: false
   show_masks: true
   multimask_output: false
   epsilon_factor: 0.001
-  cache_size: 10  # LRU cache size for image embeddings
+  # LRU cache size for image embeddings
+  cache_size: 10
 
 widgets:
   - name: button_add_point

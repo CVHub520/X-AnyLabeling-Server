@@ -5,7 +5,8 @@ batch_processing_mode: "text_prompt"
 params:
   bpe_path: null
   model_path: "sam3.pt"
-  device: "cuda:0"  # cuda:{index} or cpu
+  # cuda | cuda:0 | cuda:1 | cpu
+  device: "cuda:0"
   image_size: 1008
   conf_threshold: 0.25
   show_boxes: true
