@@ -1,0 +1,9 @@
+GroundingPI single-image client and spatial-token protocol
+
+Source: https://github.com/groundingpi/GroundingPI
+Revision: 090932430bbbeea004cfa461767ede7f563c0f3a
+Original files: grounding_pi/__init__.py, grounding_pi/client.py,
+                grounding_pi/protocol.py
+
+These files retain the upstream behavior and are formatted to the Server's
+Python style. See LICENSE for the upstream Apache License 2.0.

@@ -1,0 +1,28 @@
+model_id: groundingpi
+display_name: "GroundingPI"
+batch_processing_mode: "text_prompt"
+
+params:
+  model_path: "GroundingPI/GroundingPI"
+  # transformers | openai
+  backend: "transformers"
+  # cuda | cuda:0 | cuda:1 | cpu
+  device: "cuda"
+  # bfloat16 | float16 | float32
+  dtype: "bfloat16"
+  # sdpa | eager | flash_attention_2
+  attn_implementation: "sdpa"
+  # detection | grounding | pointing | visual_prompting
+  task: "detection"
+  max_new_tokens: 4096
+  max_model_len: 16384
+
+widgets:
+  - name: remote_task_select_combobox
+    value: null
+  - name: button_send
+    value: null
+  - name: edit_text
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false
