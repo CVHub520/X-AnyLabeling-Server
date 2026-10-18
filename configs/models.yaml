@@ -16,6 +16,8 @@ enabled_models:
   # - glm_4_6v_grounding_api
   # - locateanything
   # - groundingpi
+  # - groundanything
+  # - groundanything_vlm
   # - rexomni
   # - pp_doclayout_v3
   # - paddleocr_vl_1_5

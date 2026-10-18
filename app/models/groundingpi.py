@@ -162,7 +162,7 @@ class GroundingPI(BaseModel):
         result = self.parse_response(response, geometry)
         if not result.valid:
             raise ValueError(
-                f"Invalid GroundingPI output: {result.parse_error}"
+                f"Invalid {self.display_name} output: {result.parse_error}"
             )
 
         shapes = []

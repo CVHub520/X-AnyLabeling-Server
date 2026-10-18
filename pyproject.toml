@@ -107,6 +107,7 @@ exclude = ["logs*", "weights*", "configs*", "tests*", "docs*"]
 [tool.setuptools.package-data]
 "app.models.sam3" = ["assets/bpe_simple_vocab_16e6.txt.gz"]
 "app.models.groundingpi_impl" = ["LICENSE", "NOTICE"]
+"app.models.groundanything_impl" = ["LICENSE", "NOTICE"]
 
 [tool.setuptools.dynamic]
 version = {attr = "app.__version__"}

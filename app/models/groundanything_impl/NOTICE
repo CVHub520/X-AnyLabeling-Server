@@ -1,0 +1,6 @@
+Native GroundAnything self-speculative inference sources from
+https://github.com/groundingpi/GroundAnything
+Commit: e054ab329cfe3f1b88ca8cf279bcab3e2f12934e
+License: Apache-2.0 (see LICENSE).
+Sources: models/dlm/hybrid.py, models/dlm/vlm.py, infer/dlm/qwen3_inputs.py.
+Local changes: imports relocated; unused training and alternative generation methods omitted.
