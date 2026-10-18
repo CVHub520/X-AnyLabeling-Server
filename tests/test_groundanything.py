@@ -33,7 +33,7 @@ class TestGroundAnything(unittest.TestCase):
                     config["params"]["model_path"], f"GroundingPI/{repo}"
                 )
                 self.assertEqual(
-                    len(cls(config).get_metadata()["available_tasks"]), 4
+                    len(cls(config).get_metadata()["available_tasks"]), 8
                 )
 
     def test_native_diffusion_output_and_truncation(self):

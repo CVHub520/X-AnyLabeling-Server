@@ -78,6 +78,22 @@ class GroundingPI(BaseModel):
             ("detection", "Detection", "Detect categories as bounding boxes"),
             ("grounding", "Grounding", "Locate a described target"),
             ("pointing", "Pointing", "Point to a described target"),
+            (
+                "object_points",
+                "Object Points",
+                "Point to instances of categories",
+            ),
+            ("ocr", "OCR", "Detect and transcribe text as bounding boxes"),
+            (
+                "document_layout",
+                "Document Layout",
+                "Locate document layout categories",
+            ),
+            (
+                "gui_grounding",
+                "GUI Grounding",
+                "Point to a UI element from an instruction",
+            ),
             ("visual_prompting", "Visual Prompting", "Find similar objects"),
         ):
             visual = task == "visual_prompting"
@@ -91,19 +107,25 @@ class GroundingPI(BaseModel):
                 if visual
                 else {"edit_text": {}, "button_send": {}}
             )
+            batch_mode = None if visual else "text_prompt"
+            if task == "ocr":
+                widgets = {"button_run": {}}
+                batch_mode = "default"
             widgets["toggle_preserve_existing_annotations"] = {}
             metadata["available_tasks"].append(
                 {
                     "id": task,
                     "name": name,
                     "description": description,
-                    "batch_processing_mode": None if visual else "text_prompt",
+                    "batch_processing_mode": batch_mode,
                     "active_widgets": widgets,
                 }
             )
         return metadata
 
     def _build_prompt(self, task, params, width, height):
+        if task == "ocr":
+            return self.protocol.build_ocr_prompt()
         if task == "visual_prompting":
             boxes = []
             for mark in params.get("marks", []):
@@ -134,13 +156,16 @@ class GroundingPI(BaseModel):
             "detection": self.protocol.build_dense_bbox_prompt,
             "grounding": self.protocol.build_refer_bbox_prompt,
             "pointing": self.protocol.build_refer_point_prompt,
+            "object_points": self.protocol.build_dense_point_prompt,
+            "document_layout": self.protocol.build_layout_prompt,
+            "gui_grounding": self.protocol.build_gui_prompt,
         }
         if task not in builders:
             raise ValueError(f"Unsupported task: {task}")
         text = params.get("text_prompt", "").strip()
         if not text:
             return None
-        if task == "detection":
+        if task in ("detection", "object_points", "document_layout"):
             categories = parse_prompts(text, separators=[",", ".", "\n"])
             return builders[task](categories) if categories else None
         return builders[task](text)
@@ -158,7 +183,11 @@ class GroundingPI(BaseModel):
             response = self._generate(image, prompt, params)
         else:
             response = self._request(image, prompt, params)
-        geometry = "point" if task == "pointing" else "bbox"
+        geometry = (
+            "point"
+            if task in ("pointing", "object_points", "gui_grounding")
+            else "bbox"
+        )
         result = self.parse_response(response, geometry)
         if not result.valid:
             raise ValueError(

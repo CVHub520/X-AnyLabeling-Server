@@ -111,6 +111,65 @@ class TestGroundingPI(unittest.TestCase):
             post.call_args.kwargs["json"]["messages"][0]["content"][1]["text"],
         )
 
+    def test_additional_tasks(self):
+        for task, text, prompt, coordinates, shape_type, label in (
+            (
+                "object_points",
+                "car.person,car\nperson",
+                "Point to: car</c>person.",
+                "<999><0>",
+                "point",
+                "car",
+            ),
+            (
+                "ocr",
+                "",
+                "OCR task detect all the text in box format.",
+                "<0><0><999><999>",
+                "rectangle",
+                "Hello, world!",
+            ),
+            (
+                "document_layout",
+                "title.text,title\ntext",
+                "Detect all document layout elements that match the following categories: title</c>text.",
+                "<0><0><999><999>",
+                "rectangle",
+                "title",
+            ),
+            (
+                "gui_grounding",
+                "open settings, then select display",
+                "Point to the UI element to click for the following instruction: open settings, then select display.",
+                "<999><0>",
+                "point",
+                "target",
+            ),
+        ):
+            with self.subTest(task=task):
+                result, post = self.predict(
+                    f"<|object_ref_start|>{label}<|object_ref_end|>"
+                    f"<|box_start|>{coordinates}<|box_end|>",
+                    {"current_task": task, "text_prompt": text},
+                )
+                self.assertEqual(
+                    post.call_args.kwargs["json"]["messages"][0]["content"][1][
+                        "text"
+                    ],
+                    prompt,
+                )
+                shape = result["shapes"][0]
+                self.assertEqual(shape["label"], label)
+                self.assertEqual(shape["shape_type"], shape_type)
+                self.assertEqual(
+                    shape["points"],
+                    (
+                        [[200, 0]]
+                        if shape_type == "point"
+                        else [[0, 0], [200, 0], [200, 100], [0, 100]]
+                    ),
+                )
+
     def test_visual_prompt_quantization(self):
         mark = {"type": "rectangle", "label": 1, "data": [200, 100, 0, 0]}
         prompt = self.model._build_prompt(
@@ -280,6 +339,9 @@ class TestGroundingPI(unittest.TestCase):
                 "detection",
                 "grounding",
                 "pointing",
+                "object_points",
+                "document_layout",
+                "gui_grounding",
                 "visual_prompting",
             ):
                 self.assertEqual(
@@ -304,15 +366,30 @@ class TestGroundingPI(unittest.TestCase):
         tasks = self.model.get_metadata()["available_tasks"]
         self.assertEqual(
             [t["id"] for t in tasks],
-            ["detection", "grounding", "pointing", "visual_prompting"],
+            [
+                "detection",
+                "grounding",
+                "pointing",
+                "object_points",
+                "ocr",
+                "document_layout",
+                "gui_grounding",
+                "visual_prompting",
+            ],
         )
         self.assertIsNone(tasks[-1]["batch_processing_mode"])
         self.assertIn("add_pos_rect", tasks[-1]["active_widgets"])
         self.assertTrue(
             all(
-                t["batch_processing_mode"] == "text_prompt" for t in tasks[:-1]
+                t["batch_processing_mode"] == "text_prompt"
+                for t in tasks[:-1]
+                if t["id"] != "ocr"
             )
         )
+        ocr = next(t for t in tasks if t["id"] == "ocr")
+        self.assertEqual(ocr["batch_processing_mode"], "default")
+        self.assertIn("button_run", ocr["active_widgets"])
+        self.assertNotIn("edit_text", ocr["active_widgets"])
 
 
 if __name__ == "__main__":

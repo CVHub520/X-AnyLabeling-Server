@@ -12,7 +12,7 @@ params:
   dtype: "bfloat16"
   # sdpa | eager | flash_attention_2
   attn_implementation: "sdpa"
-  # detection | grounding | pointing | visual_prompting
+  # detection | grounding | pointing | object_points | ocr | document_layout | gui_grounding | visual_prompting
   task: "detection"
   max_new_tokens: 4096
   max_model_len: 16384
