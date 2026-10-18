@@ -3,6 +3,8 @@ name: Check OpenAPI Schema
 on:
   pull_request:
     paths:
+      - ".github/workflows/check-openapi.yml"
+      - "app/__init__.py"
       - "app/api/**"
       - "app/schemas/**"
       - "app/main.py"
@@ -13,6 +15,8 @@ on:
     branches:
       - main
     paths:
+      - ".github/workflows/check-openapi.yml"
+      - "app/__init__.py"
       - "app/api/**"
       - "app/schemas/**"
       - "app/main.py"
