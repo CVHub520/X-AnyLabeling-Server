@@ -1,3 +1,29 @@
+## `v0.0.13` (Oct 28, 2026)
+
+### 🚀 New Features
+
+- Add WeVisOne-VL support for detection, referring localization, pointing, counting, OCR, text grounding, segmentation, text and box matting, visual prompting, and freeform instructions
+- Add Xiaomi-Lens-0 support for grounding, segmentation, and visual reasoning
+- Add GroundingPI support for detection, referring and category-based pointing, OCR, document layout, GUI grounding, and visual prompting
+- Add native GroundAnything and GroundAnything-VLM grounding support
+
+### 🐛 Bug Fixes
+
+- Bundle the SAM3 BPE vocabulary and load it by default
+- Refresh the OpenAPI schema and check package version changes in CI
+- Fix website content synchronization authentication
+
+### 🛠️ Improvements
+
+- Add model dependency extras, bilingual setup instructions, and task demos
+- Standardize model configuration hints
+
+### 🌟 Contributors
+
+A total of 1 developer contributed to this release.
+
+Thank @CVHub520
+
 ## `v0.0.12` (Aug 06, 2026)
 
 ### 🐛 Bug Fixes
