@@ -1,0 +1,32 @@
+model_id: wevisone_vl
+display_name: "WeVisOne-VL"
+batch_processing_mode: "text_prompt"
+
+params:
+  model_path: "tencent/WeVisOne-VL-2B"
+  device: "cuda:0"
+  dtype: "bfloat16"
+  attn_implementation: "sdpa"
+  # detection | referring | point | count_box | count_point | ocr | ocr_grounding | segmentation | matting | box_matting | visual_prompt | freeform
+  task: "detection"
+  min_pixels: 16384
+  max_pixels: 1003520
+  decoder_batch_size: 1
+  max_new_tokens: 4096
+  temperature: 0.0
+  mask_threshold: 0.5
+  epsilon_factor: 0.001
+
+widgets:
+  - name: remote_task_select_combobox
+    value: null
+  - name: edit_text
+    value: null
+  - name: button_send
+    value: null
+  - name: mask_fineness_slider
+    value: 50
+  - name: mask_fineness_value_label
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false

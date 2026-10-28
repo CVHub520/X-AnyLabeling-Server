@@ -75,6 +75,10 @@ xiaomi_lens = [
     "torchvision>=0.25.0",
 ]
 
+wevisone_vl = [
+    "wevisone-vl @ https://github.com/Tencent/WeVisOne-VL/archive/9a6bcd85404505df0d05cfb5d97512ccacf35dee.zip",
+]
+
 sam3 = [
     "decord",
     "einops",

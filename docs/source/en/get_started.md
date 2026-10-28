@@ -81,6 +81,7 @@ uv pip install -e .[all]
 > - `locateanything`: Install the `[locateanything]` extra in a separate environment. It requires `transformers>=4.50,<5`.
 > - `groundingpi`, `groundanything`, and `groundanything_vlm`: For local inference, run `uv pip install -e '.[groundingpi]'` to install the shared dependencies, including the required Transformers 5.7.0 fork. GroundAnything uses the bundled native diffusion decoder; GroundAnything-VLM uses autoregressive generation.
 > - `xiaomi_lens`: Run `uv pip install -e '.[xiaomi_lens]'` to install the pinned upstream inference package and Transformers 5.4.0.
+> - `wevisone_vl`: Run `uv pip install -e '.[wevisone_vl]'` to install the pinned upstream inference package and Transformers 5.12.1 for local inference.
 > - `rexomni` and `paddleocr_vl_1_5`: Prefer the `[all]` installation mode.
 > - `paddleocr_vl_1_5`: Install `transformers>=5.0.0`. Tune generation and image-size parameters in `configs/auto_labeling/paddleocr_vl_1_5.yaml` to match available GPU memory.
 > - `pp_doclayout_v3`: Install a Transformers version compatible with the current upstream model release.

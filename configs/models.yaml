@@ -17,6 +17,7 @@ enabled_models:
   # - locateanything
   # - groundingpi
   # - xiaomi_lens
+  # - wevisone_vl
   # - groundanything
   # - groundanything_vlm
   # - rexomni

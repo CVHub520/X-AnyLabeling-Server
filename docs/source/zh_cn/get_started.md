@@ -60,6 +60,7 @@ uv pip install -e .[all]
 | SAM 2 / SAM 3 | 使用 Python 3.12、PyTorch 2.7+ 和 CUDA 12.6+；安装 `.[sam3]` |
 | LocateAnything | 建议单独环境并安装 `.[locateanything]`，其 Transformers 版本要求为 `>=4.50,<5` |
 | Xiaomi-Lens-0 | 执行 `uv pip install -e '.[xiaomi_lens]'` 安装固定版本的上游推理包和 Transformers 5.4.0 |
+| WeVisOne-VL | 本地推理执行 `uv pip install -e '.[wevisone_vl]'` 安装固定版本的上游推理包和 Transformers 5.12.1 |
 | GroundingPI / GroundAnything / GroundAnything-VLM | 本地推理执行 `uv pip install -e '.[groundingpi]'` 安装共用依赖，包含所需的 Transformers 5.7.0 定制版；GroundAnything 使用内置原生扩散解码器，GroundAnything-VLM 使用自回归生成 |
 | Rex-Omni / PaddleOCR-VL-1.5 | 建议使用 `.[all]` |
 | PaddleOCR-VL-1.5 | 需要 `transformers>=5.0.0`；根据显存调整生成长度与图像尺寸参数 |
