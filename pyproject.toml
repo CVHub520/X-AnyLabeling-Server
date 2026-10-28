@@ -67,6 +67,14 @@ groundingpi = [
     "accelerate",
 ]
 
+xiaomi_lens = [
+    "xiaomi-lens @ https://github.com/SeerRay-Lab/Xiaomi-Lens-0/archive/a0a34dc14ca351725f6bd1bcbf5ab73a4c7e8490.zip",
+    "transformers==5.4.0",
+    "accelerate>=1.13.0",
+    "torch>=2.10.0",
+    "torchvision>=0.25.0",
+]
+
 sam3 = [
     "decord",
     "einops",

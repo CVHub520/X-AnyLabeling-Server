@@ -16,6 +16,7 @@ enabled_models:
   # - glm_4_6v_grounding_api
   # - locateanything
   # - groundingpi
+  # - xiaomi_lens
   # - groundanything
   # - groundanything_vlm
   # - rexomni

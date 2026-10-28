@@ -1,0 +1,32 @@
+model_id: xiaomi_lens
+display_name: "Xiaomi-Lens-0"
+batch_processing_mode: "text_prompt"
+
+params:
+  model_path: "SeerRay-Lab/Xiaomi-Lens-0"
+  # cuda | cuda:0 | cpu
+  device: "cuda"
+  # sdpa | eager | flash_attention_2
+  attn_implementation: "sdpa"
+  # referring_comprehension | referring_segmentation | multi_instance_grounding | reasoning_segmentation | embodied_referring | fine_grained_perception
+  task: "referring_comprehension"
+  max_new_tokens: 4096
+  max_pixels: 262144
+  mask_threshold: 0.5
+  epsilon_factor: 0.001
+
+widgets:
+  - name: remote_task_select_combobox
+    value: null
+  - name: edit_text
+    value: null
+  - name: button_send
+    value: null
+  - name: button_finish_object
+    value: null
+  - name: mask_fineness_slider
+    value: 10
+  - name: mask_fineness_value_label
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false
