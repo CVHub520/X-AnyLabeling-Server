@@ -1,0 +1,25 @@
+model_id: unlimited_ocr_2
+display_name: "Unlimited-OCR-2"
+batch_processing_mode: null
+
+capabilities:
+  ppocr_pipeline: true
+  document_inference: true
+
+params:
+  # transformers | sglang
+  backend: "transformers"
+  model_path: "baidu/Unlimited-OCR-2"
+  revision: "c14071b549f4fcab10909f3c4acc6a2edb366947"
+  # cuda | cuda:0 | cuda:1
+  device: "cuda"
+  max_new_tokens: 8192
+  max_model_len: 131072
+  crop_mode: null
+  api_url: "http://127.0.0.1:10000/v1"
+  served_model: "Unlimited-OCR-2"
+  api_key: ""
+  request_timeout: 3600
+  max_page_tokens: 20000
+
+widgets: []

@@ -26,7 +26,12 @@ class InferenceExecutor:
         self._queue_size = 0
 
     async def execute(
-        self, model_id: str, image: np.ndarray, params: Dict[str, Any]
+        self,
+        model_id: str,
+        image: np.ndarray | list[np.ndarray],
+        params: Dict[str, Any],
+        *,
+        document: bool = False,
     ) -> Dict[str, Any]:
         """Execute inference asynchronously.
 
@@ -48,14 +53,23 @@ class InferenceExecutor:
         try:
             loop = asyncio.get_event_loop()
             result = await loop.run_in_executor(
-                self.executor, self._run_inference, model_id, image, params
+                self.executor,
+                self._run_inference,
+                model_id,
+                image,
+                params,
+                document,
             )
             return result
         finally:
             self._queue_size -= 1
 
     def _run_inference(
-        self, model_id: str, image: np.ndarray, params: Dict[str, Any]
+        self,
+        model_id: str,
+        image: np.ndarray | list[np.ndarray],
+        params: Dict[str, Any],
+        document: bool = False,
     ) -> Dict[str, Any]:
         """Run inference in thread pool.
 
@@ -68,6 +82,8 @@ class InferenceExecutor:
             Inference results with shapes and description.
         """
         model = self.loader.get_model(model_id)
+        if document:
+            return model.predict_document(image, params)
         return model.predict(image, params)
 
     def shutdown(self):

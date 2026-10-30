@@ -23,5 +23,6 @@ enabled_models:
   # - rexomni
   # - pp_doclayout_v3
   # - paddleocr_vl_1_5
+  # - unlimited_ocr_2
   # - ppocr_layoutstructv3_vl_1_5
   # - geco2

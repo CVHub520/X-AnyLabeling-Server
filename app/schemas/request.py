@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Any, Dict, List, Optional
 
 
@@ -8,6 +8,12 @@ class PredictRequest(BaseModel):
     model: str
     image: str
     params: Dict[str, Any] = {}
+
+
+class DocumentPredictRequest(BaseModel):
+    model: str
+    images: List[str] = Field(min_length=1)
+    params: Dict[str, Any] = Field(default_factory=dict)
 
 
 class VideoInitRequest(BaseModel):

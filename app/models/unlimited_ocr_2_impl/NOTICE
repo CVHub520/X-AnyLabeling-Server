@@ -1,0 +1,4 @@
+Postprocessing from baidu/Unlimited-OCR (MIT license).
+Source: https://github.com/baidu/Unlimited-OCR/blob/6c5d1906ba638a7cd87bc00f14452a47fdabf16b/utils/process_unlimitedOCR2.py
+Revision: 6c5d1906ba638a7cd87bc00f14452a47fdabf16b
+Changes: removed the standalone command-line entry point and its unused imports.

@@ -55,6 +55,22 @@ transformers = [
     "qwen_vl_utils",
 ]
 
+unlimited_ocr_2_sglang = [
+    "sglang @ https://huggingface.co/baidu/Unlimited-OCR-2/resolve/c14071b549f4fcab10909f3c4acc6a2edb366947/wheel/sglang-0.5.20.dev13%2Bg75b9b06b02-py3-none-any.whl#sha256=576c71dab3cacad843f6870739494e13b2e8169a69cc038f84395d6503e801ea",
+    "fastokens==0.3.2",
+]
+
+unlimited_ocr_2 = [
+    "transformers==4.52.1",
+    "huggingface-hub==0.36.0",
+    "tokenizers==0.21.4",
+    "addict==2.4.0",
+    "einops==0.8.2",
+    "easydict==1.13",
+    "torchvision",
+    "triton",
+]
+
 locateanything = [
     "transformers>=4.50,<5",
     "accelerate",
@@ -120,6 +136,7 @@ exclude = ["logs*", "weights*", "configs*", "tests*", "docs*"]
 "app.models.sam3" = ["assets/bpe_simple_vocab_16e6.txt.gz"]
 "app.models.groundingpi_impl" = ["LICENSE", "NOTICE"]
 "app.models.groundanything_impl" = ["LICENSE", "NOTICE"]
+"app.models.unlimited_ocr_2_impl" = ["LICENSE", "NOTICE"]
 
 [tool.setuptools.dynamic]
 version = {attr = "app.__version__"}
