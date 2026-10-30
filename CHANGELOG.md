@@ -1,3 +1,15 @@
+## `v0.0.14` (Oct 30, 2026)
+
+### 🚀 New Features
+
+- Add Unlimited-OCR-2 document parsing with Transformers and SGLang backends
+
+### 🌟 Contributors
+
+A total of 1 developer contributed to this release.
+
+Thank @CVHub520
+
 ## `v0.0.13` (Oct 28, 2026)
 
 ### 🚀 New Features
