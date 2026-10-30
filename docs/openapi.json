@@ -1,6 +1,33 @@
 {
   "components": {
     "schemas": {
+      "DocumentPredictRequest": {
+        "properties": {
+          "images": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Images",
+            "type": "array"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "params": {
+            "additionalProperties": true,
+            "title": "Params",
+            "type": "object"
+          }
+        },
+        "required": [
+          "model",
+          "images"
+        ],
+        "title": "DocumentPredictRequest",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -259,7 +286,7 @@
   "info": {
     "description": "AI Model Inference Service for X-AnyLabeling",
     "title": "X-AnyLabeling Server",
-    "version": "0.0.13"
+    "version": "0.0.14"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -381,6 +408,45 @@
           }
         },
         "summary": "Predict",
+        "tags": [
+          "Prediction"
+        ]
+      }
+    },
+    "/v1/predict/document": {
+      "post": {
+        "operationId": "predict_document_v1_predict_document_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentPredictRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Predict Document",
         "tags": [
           "Prediction"
         ]
