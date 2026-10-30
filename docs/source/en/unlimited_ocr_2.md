@@ -1,6 +1,6 @@
 # Unlimited-OCR-2 document serving
 
-Install the backend dependency group listed in [Getting Started](https://github.com/CVHub520/X-AnyLabeling-Server/blob/main/docs/source/en/get_started.md). The Transformers backend runs in X-AnyLabeling-Server; the SGLang backend runs as a separate service and can be hosted on another machine. Use the customized SGLang wheel supplied by the `unlimited_ocr_2_sglang` extra: a stock SGLang release does not provide this model's document-window implementation.
+Install the backend dependency group listed in [Getting Started](get_started.md). The Transformers backend runs in X-AnyLabeling-Server; the SGLang backend runs as a separate service and can be hosted on another machine. Use the customized SGLang wheel supplied by the `unlimited_ocr_2_sglang` extra: a stock SGLang release does not provide this model's document-window implementation.
 
 ## SGLang service
 
