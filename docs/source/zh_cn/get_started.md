@@ -62,6 +62,7 @@ uv pip install -e .[all]
 | Xiaomi-Lens-0 | 执行 `uv pip install -e '.[xiaomi_lens]'` 安装固定版本的上游推理包和 Transformers 5.4.0 |
 | Unlimited-OCR-2 | 原生 CUDA/Triton 推理执行 `uv pip install -e '.[unlimited_ocr_2]'`，使用 Transformers 4.52.1；独立 SGLang 服务在其运行环境执行 `uv pip install -e '.[unlimited_ocr_2_sglang]'`。两个后端需要不同的 Transformers 版本，启动与分页窗口配置见[文档服务说明](../en/unlimited_ocr_2.md) |
 | WeVisOne-VL | 本地推理执行 `uv pip install -e '.[wevisone_vl]'` 安装固定版本的上游推理包和 Transformers 5.12.1 |
+| RelateAnything | 执行 `uv pip install -e '.[relateanything]'`；上游依赖需要 Python 3.12+，可能与使用其他 Transformers 版本的模型冲突 |
 | GroundingPI / GroundAnything / GroundAnything-VLM | 本地推理执行 `uv pip install -e '.[groundingpi]'` 安装共用依赖，包含所需的 Transformers 5.7.0 定制版；GroundAnything 使用内置原生扩散解码器，GroundAnything-VLM 使用自回归生成 |
 | Rex-Omni / PaddleOCR-VL-1.5 | 建议使用 `.[all]` |
 | PaddleOCR-VL-1.5 | 需要 `transformers>=5.0.0`；根据显存调整生成长度与图像尺寸参数 |

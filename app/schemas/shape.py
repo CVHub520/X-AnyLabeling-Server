@@ -36,6 +36,7 @@ class Shape(BaseModel):
     direction: float = Field(0, ge=0.0, le=2 * math.pi)
     flags: Optional[Dict[str, Any]] = None
     group_id: Optional[int] = Field(None, gt=0)
+    shape_id: Optional[str] = Field(None, min_length=1)
     kie_linking: List[Any] = Field(default_factory=list)
 
     @field_validator("group_id")

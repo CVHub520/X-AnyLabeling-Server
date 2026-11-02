@@ -44,6 +44,12 @@ dev = [
     "flake8",
 ]
 
+relateanything = [
+    "relsgg @ https://github.com/Maelic/RelateAnything/archive/fc626d0d58113efcc8b08252c168a7ad529a171f.zip",
+    "huggingface-hub",
+    "ultralytics~=8.4",
+]
+
 ultralytics = [
     "ultralytics",
     "lapx",

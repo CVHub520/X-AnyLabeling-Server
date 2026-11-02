@@ -1,4 +1,5 @@
 enabled_models:
+  # - relateanything
   - yolo11n
   # - yolo11n_seg
   # - yolo11n_pose

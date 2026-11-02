@@ -1,0 +1,31 @@
+model_id: relateanything
+display_name: "RelateAnything"
+batch_processing_mode: null
+
+params:
+  model_path: "maelic/relsgg-vits16plus"
+  detector_path: "yolo11n.pt"
+  # cuda | cuda:0 | cpu
+  device: "cpu"
+  conf_threshold: 0.25
+  iou_threshold: 0.7
+  relation_threshold: 0.25
+  max_boxes: 60
+  topk: 5
+
+widgets:
+  - name: button_run
+    value: null
+  - name: edit_text
+    value: ""
+    placeholder: "Relations, e.g. riding, beside, in front of"
+  - name: button_send
+    value: null
+  - name: input_conf
+    value: null
+  - name: edit_conf
+    value: 0.25
+  - name: input_iou
+    value: null
+  - name: edit_iou
+    value: 0.7

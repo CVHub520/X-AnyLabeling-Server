@@ -80,6 +80,7 @@ uv pip install -e .[all]
 > - `sam3`: Use Python 3.12+, PyTorch 2.7+, and a CUDA-compatible GPU with CUDA 12.6+. The same dependency group can be used to build `sam2`.
 > - GLM and other API models: Supply credentials through environment variables such as `ZHIPU_API_KEY`, or through a private model configuration. They can also be deployed through vLLM or SGLang.
 > - `locateanything`: Install the `[locateanything]` extra in a separate environment. It requires `transformers>=4.50,<5`.
+> - `relateanything`: Run `uv pip install -e '.[relateanything]'`. The upstream package requires Python 3.12+ and may conflict with models using other Transformers versions.
 > - `groundingpi`, `groundanything`, and `groundanything_vlm`: For local inference, run `uv pip install -e '.[groundingpi]'` to install the shared dependencies, including the required Transformers 5.7.0 fork. GroundAnything uses the bundled native diffusion decoder; GroundAnything-VLM uses autoregressive generation.
 > - `xiaomi_lens`: Run `uv pip install -e '.[xiaomi_lens]'` to install the pinned upstream inference package and Transformers 5.4.0.
 > - `wevisone_vl`: Run `uv pip install -e '.[wevisone_vl]'` to install the pinned upstream inference package and Transformers 5.12.1 for local inference.
