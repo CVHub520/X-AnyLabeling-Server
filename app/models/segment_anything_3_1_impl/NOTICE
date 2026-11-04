@@ -1,0 +1,10 @@
+SAM 3.1 inference runtime from https://github.com/facebookresearch/sam3
+Commit: f1647e8d0c1d280991f4d1b7d974c2704537fe66
+Copyright (c) Meta Platforms, Inc. and affiliates. All Rights Reserved.
+Licensed under the included SAM License.
+
+Local changes: isolated package imports; inference-only model builder; reuse
+the bundled SAM 3 BPE vocabulary; omit unsupported offload_state_to_cpu
+argument when initializing multiplex sessions.
+The merged checkpoint is loaded once, with strict key validation. Point
+refinements are merged even when no cached detector result exists for a frame.

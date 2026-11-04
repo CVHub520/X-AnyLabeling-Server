@@ -1,0 +1,38 @@
+model_id: segment_anything_3_1_video
+display_name: "Segment Anything 3.1 Video"
+batch_processing_mode: "video"
+auto_clear_cache_label_and_gid: true
+
+params:
+  bpe_path: null
+  model_path: "sam3.1_multiplex.pt"
+  device: "cuda:0"
+  max_num_objects: 16
+  conf_threshold: 0.25
+  show_boxes: true
+  show_masks: false
+  epsilon_factor: 0.001
+
+widgets:
+  - name: button_add_point
+    value: null
+  - name: button_remove_point
+    value: null
+  - name: button_clear
+    value: null
+  - name: button_finish_object
+    value: null
+  - name: edit_text
+    value: null
+  - name: button_send
+    value: null
+  - name: input_conf
+    value: null
+  - name: edit_conf
+    value: 0.25
+  - name: mask_fineness_slider
+    value: 10
+  - name: mask_fineness_value_label
+    value: null
+  - name: toggle_preserve_existing_annotations
+    value: false

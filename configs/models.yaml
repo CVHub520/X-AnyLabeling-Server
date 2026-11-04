@@ -14,6 +14,7 @@ enabled_models:
   # - segment_anything_2
   # - segment_anything_3
   # - segment_anything_3_video
+  # - segment_anything_3_1_video
   # - glm_4_6v_grounding_api
   # - locateanything
   # - groundingpi

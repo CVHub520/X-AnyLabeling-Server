@@ -57,7 +57,7 @@ uv pip install -e .[all]
 
 | 模型或能力 | 建议 |
 | --- | --- |
-| SAM 2 / SAM 3 | 使用 Python 3.12、PyTorch 2.7+ 和 CUDA 12.6+；安装 `.[sam3]` |
+| SAM 2 / SAM 3 / SAM 3.1 Video | 使用 Python 3.12、PyTorch 2.7+ 和 CUDA 12.6+；运行 `uv pip install -e '.[sam3]'`。SAM 3.1 Video 使用内置推理代码和 PyTorch 标准注意力，无需 FlashAttention |
 | LocateAnything | 建议单独环境并安装 `.[locateanything]`，其 Transformers 版本要求为 `>=4.50,<5` |
 | Xiaomi-Lens-0 | 执行 `uv pip install -e '.[xiaomi_lens]'` 安装固定版本的上游推理包和 Transformers 5.4.0 |
 | Unlimited-OCR-2 | 原生 CUDA/Triton 推理执行 `uv pip install -e '.[unlimited_ocr_2]'`，使用 Transformers 4.52.1；独立 SGLang 服务在其运行环境执行 `uv pip install -e '.[unlimited_ocr_2_sglang]'`。两个后端需要不同的 Transformers 版本，启动与分页窗口配置见[文档服务说明](../en/unlimited_ocr_2.md) |

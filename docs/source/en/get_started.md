@@ -77,7 +77,7 @@ uv pip install -e .[all]
 > Model requirements differ:
 >
 > - `unlimited_ocr_2`: Run `uv pip install -e '.[unlimited_ocr_2]'` for native CUDA/Triton inference with Transformers 4.52.1. For the separate SGLang service, install `uv pip install -e '.[unlimited_ocr_2_sglang]'` in its serving environment; the two backends require different Transformers versions. See [document serving](unlimited_ocr_2.md) for startup and page-window settings.
-> - `sam3`: Use Python 3.12+, PyTorch 2.7+, and a CUDA-compatible GPU with CUDA 12.6+. The same dependency group can be used to build `sam2`.
+> - `sam3`: Run `uv pip install -e '.[sam3]'` for SAM 3 and SAM 3.1 Video. Use Python 3.12+, PyTorch 2.7+, and a CUDA-compatible GPU with CUDA 12.6+. SAM 3.1 Video uses the bundled inference code and standard PyTorch attention; FlashAttention is not required. The same dependency group can be used to build `sam2`.
 > - GLM and other API models: Supply credentials through environment variables such as `ZHIPU_API_KEY`, or through a private model configuration. They can also be deployed through vLLM or SGLang.
 > - `locateanything`: Install the `[locateanything]` extra in a separate environment. It requires `transformers>=4.50,<5`.
 > - `relateanything`: Run `uv pip install -e '.[relateanything]'`. The upstream package requires Python 3.12+ and may conflict with models using other Transformers versions.
