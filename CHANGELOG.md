@@ -1,3 +1,20 @@
+## `v0.0.15` (Nov 05, 2026)
+
+### 🚀 New Features
+
+- Add SAM 3.1 multiplex video segmentation support
+- Add RelateAnything open-vocabulary relation recognition support
+
+### 🐛 Bug Fixes
+
+- Refresh the OpenAPI schema for document prediction
+
+### 🌟 Contributors
+
+A total of 1 developer contributed to this release.
+
+Thank @CVHub520
+
 ## `v0.0.14` (Oct 30, 2026)
 
 ### 🚀 New Features
